@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/HomeWorkAndroid/NMedia/app/src/main/res/drawable/ic_add_24dp.xml" value="0.302" />
+        <entry key="..\:/HomeWorkAndroid/NMedia/app/src/main/res/drawable/ic_baseline_close_24.xml" value="0.302" />
+        <entry key="..\:/HomeWorkAndroid/NMedia/app/src/main/res/drawable/ic_baseline_favorite_24.xml" value="0.259" />
+        <entry key="..\:/HomeWorkAndroid/NMedia/app/src/main/res/drawable/ic_baseline_favorite_border_24dp.xml" value="0.181" />
+        <entry key="..\:/HomeWorkAndroid/NMedia/app/src/main/res/drawable/ic_baseline_share_24.xml" value="0.302" />
+        <entry key="..\:/HomeWorkAndroid/NMedia/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.271" />
+        <entry key="..\:/HomeWorkAndroid/NMedia/app/src/main/res/drawable/ic_netology_48dp.xml" value="0.302" />
+        <entry key="..\:/HomeWorkAndroid/NMedia/app/src/main/res/drawable/ic_options_24dp.xml" value="0.363" />
+        <entry key="..\:/HomeWorkAndroid/NMedia/app/src/main/res/drawable/video_cover_pic.xml" value="0.302" />
+        <entry key="..\:/HomeWorkAndroid/NMedia/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/HomeWorkAndroid/NMedia/app/src/main/res/layout/app_activity.xml" value="0.20833333333333334" />
+        <entry key="..\:/HomeWorkAndroid/NMedia/app/src/main/res/layout/feed_fragment.xml" value="0.23802083333333332" />
+        <entry key="..\:/HomeWorkAndroid/NMedia/app/src/main/res/layout/intent_handler_activity.xml" value="0.129981884057971" />
+        <entry key="..\:/HomeWorkAndroid/NMedia/app/src/main/res/layout/post.xml" value="0.25" />
+        <entry key="..\:/HomeWorkAndroid/NMedia/app/src/main/res/layout/postFragment.xml" value="0.25" />
+        <entry key="..\:/HomeWorkAndroid/NMedia/app/src/main/res/layout/post_content_activity.xml" value="0.11560693641618497" />
+        <entry key="..\:/HomeWorkAndroid/NMedia/app/src/main/res/layout/post_content_fragment.xml" value="0.1157548125633232" />
+        <entry key="..\:/HomeWorkAndroid/NMedia/app/src/main/res/layout/post_fragment.xml" value="0.2015625" />
+        <entry key="..\:/HomeWorkAndroid/NMedia/app/src/main/res/layout/post_list_item.xml" value="0.25" />
+        <entry key="..\:/HomeWorkAndroid/NMedia/app/src/main/res/layout/post_with_scroll.xml" value="0.25364583333333335" />
+        <entry key="..\:/HomeWorkAndroid/NMedia/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.271" />
+        <entry key="..\:/HomeWorkAndroid/NMedia/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.271" />
+        <entry key="..\:/HomeWorkAndroid/NeRecipe/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.259" />
+        <entry key="..\:/HomeWorkAndroid/NeRecipe/app/src/main/res/drawable/ic_baseline_visibility_24dp.xml" value="0.259" />
+        <entry key="..\:/HomeWorkAndroid/NeRecipe/app/src/main/res/drawable/ic_launcher_background.xml" value="0.259" />
+        <entry key="..\:/HomeWorkAndroid/NeRecipe/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.259" />
+        <entry key="..\:/HomeWorkAndroid/NeRecipe/app/src/main/res/drawable/ic_launcher_stove_foreground.xml" value="0.259" />
+        <entry key="..\:/HomeWorkAndroid/NeRecipe/app/src/main/res/drawable/ic_netology_48dp.xml" value="0.259" />
+        <entry key="..\:/HomeWorkAndroid/NeRecipe/app/src/main/res/layout/intent_handler_activity.xml" value="0.1984375" />
+        <entry key="..\:/HomeWorkAndroid/NeRecipe/app/src/main/res/layout/post_content_fragment.xml" value="0.25364583333333335" />
+        <entry key="..\:/HomeWorkAndroid/NeRecipe/app/src/main/res/layout/post_fragment.xml" value="0.25364583333333335" />
+        <entry key="..\:/HomeWorkAndroid/NeRecipe/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.131" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
