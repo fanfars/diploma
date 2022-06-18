@@ -5,23 +5,25 @@ import java.math.RoundingMode
 import java.text.DecimalFormat
 
 @Serializable
-data class Post(
+data class Recipe(
     val id: Long,
     val author: String,
-    val content: String,
-    val published: String,
+    val title : String,
+    val description: String,
+    val category: String,
     val likes: Int = 0,
     val shares: Int = 0,
-    val views: Int = 0,
-    var likedByMe: Boolean = false,
-    val postVideo: PostVideo?
+    val cookingTime: Int = 0,
+    val steps: List<CookingSteps>?,
+    var isFavorite: Boolean = false
 )
 
 @Serializable
-class PostVideo(
-    val title: String? = null,
+class CookingSteps(
+    val stepDescription: String,
+    val stepTime: Int,
     val cover: String? = null,
-    val url: String? = null
+    var stepNumber: Int
 )
 
 fun countFormat(count: Int): String {

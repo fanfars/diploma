@@ -1,17 +1,16 @@
 package ru.netology.nerecipe.adapter
 
-import ru.netology.nerecipe.dto.Post
-import ru.netology.nerecipe.dto.PostVideo
+import ru.netology.nerecipe.dto.Recipe
 
 interface PostInteractionListener {
 
-    fun onLikeClicked(post: Post)
-    fun onShareClicked(post: Post)
-    fun onViewClicked(post: Post)
-    fun onRemoveClicked(post: Post)
-    fun onEditClicked(post: Post)
-    fun onPostClicked(post: Post)
+    fun onLikeClicked(recipe: Recipe)
+    fun onShareClicked(recipe: Recipe)
+    fun onViewClicked(recipe: Recipe)
+    fun onRemoveClicked(recipe: Recipe)
+    fun onEditClicked(recipe: Recipe)
+    fun onPostClicked(recipe: Recipe)
     fun onUndoClicked()
-    fun onPlayVideoClicked(postVideo: PostVideo)
+    //fun onPlayVideoClicked(cookingSteps: CookingSteps)
 
 }

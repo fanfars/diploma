@@ -9,13 +9,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.netology.nerecipe.R
 import ru.netology.nerecipe.databinding.PostFragmentBinding
-import ru.netology.nerecipe.dto.Post
+import ru.netology.nerecipe.dto.Recipe
 import ru.netology.nerecipe.dto.countFormat
 
 
 internal class PostsAdapter(
     private val interactionListener: PostInteractionListener
-) : ListAdapter<Post, PostsAdapter.ViewHolder>(DiffCallback) {
+) : ListAdapter<Recipe, PostsAdapter.ViewHolder>(DiffCallback) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -34,7 +34,7 @@ internal class PostsAdapter(
         listener: PostInteractionListener
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        private lateinit var post: Post
+        private lateinit var recipe: Recipe
 
         private val popupMenu by lazy {
             PopupMenu(itemView.context, binding.menu).apply {
@@ -42,11 +42,11 @@ internal class PostsAdapter(
                 setOnMenuItemClickListener { menuItem ->
                     when (menuItem.itemId) {
                         R.id.remove -> {
-                            listener.onRemoveClicked(post)
+                            listener.onRemoveClicked(recipe)
                             true
                         }
                         R.id.edit -> {
-                            listener.onEditClicked(post)
+                            listener.onEditClicked(recipe)
                             true
                         }
                         else -> false
@@ -56,41 +56,41 @@ internal class PostsAdapter(
         }
 
         init {
-            binding.likesButton.setOnClickListener { listener.onLikeClicked(post) }
-            binding.shareButton.setOnClickListener { listener.onShareClicked(post) }
-            binding.viewsButton.setOnClickListener { listener.onViewClicked(post) }
-            binding.content.setOnClickListener { listener.onPostClicked(post) }
-            binding.author.setOnClickListener { listener.onPostClicked(post) }
-            binding.avatar.setOnClickListener { listener.onPostClicked(post) }
-            binding.published.setOnClickListener { listener.onPostClicked(post) }
-            binding.videoCover.setOnClickListener { listener.onPlayVideoClicked(post.postVideo!!)}
-            binding.videoContent.setOnClickListener{ listener.onPlayVideoClicked(post.postVideo!!)}
+            binding.likesButton.setOnClickListener { listener.onLikeClicked(recipe) }
+            binding.shareButton.setOnClickListener { listener.onShareClicked(recipe) }
+//            binding.cookingTimeCount.setOnClickListener { listener.onViewClicked(recipe) }
+            binding.content.setOnClickListener { listener.onPostClicked(recipe) }
+            binding.author.setOnClickListener { listener.onPostClicked(recipe) }
+            binding.avatar.setOnClickListener { listener.onPostClicked(recipe) }
+//            binding.published.setOnClickListener { listener.onPostClicked(post) }
+//            binding.videoCover.setOnClickListener { listener.onPlayVideoClicked(post.steps!!)}
+//            binding.videoContent.setOnClickListener{ listener.onPlayVideoClicked(post.steps!!)}
             binding.menu.setOnClickListener { popupMenu.show() }
         }
 
-        fun bind(post: Post) {
-            this.post = post
+        fun bind(recipe: Recipe) {
+            this.recipe = recipe
 
             with(binding) {
-                author.text = post.author
-                content.text = post.content
-                published.text = post.published
-                likesButton.text = countFormat(post.likes)
-                shareButton.text = countFormat(post.shares)
-                viewsButton.text = countFormat(post.views)
-                likesButton.isChecked = post.likedByMe
-                videoContent.text = post.postVideo?.title
-                if (post.postVideo != null) videoGroup.visibility =
+                author.text = recipe.author
+                content.text = recipe.description
+                category.text = recipe.category
+                likesButton.text = countFormat(recipe.likes)
+                shareButton.text = countFormat(recipe.shares)
+                cookingTimeCount.text = countFormat(recipe.cookingTime)
+                likesButton.isChecked = recipe.isFavorite
+                stepsDescription.text = R.string.steps_description.toString()
+                if (recipe.steps != null) videoGroup.visibility =
                     View.VISIBLE else videoGroup.visibility = View.GONE
             }
         }
     }
 
-    private object DiffCallback : DiffUtil.ItemCallback<Post>() {
-        override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean =
+    private object DiffCallback : DiffUtil.ItemCallback<Recipe>() {
+        override fun areItemsTheSame(oldItem: Recipe, newItem: Recipe): Boolean =
             oldItem.id == newItem.id
 
-        override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean =
+        override fun areContentsTheSame(oldItem: Recipe, newItem: Recipe): Boolean =
             oldItem == newItem
     }
 

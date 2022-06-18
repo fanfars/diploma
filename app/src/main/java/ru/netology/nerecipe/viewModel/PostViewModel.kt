@@ -6,8 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import ru.netology.nerecipe.adapter.PostInteractionListener
 import ru.netology.nerecipe.data.PostRepository
 import ru.netology.nerecipe.data.impl.FilePostRepository
-import ru.netology.nerecipe.dto.Post
-import ru.netology.nerecipe.dto.PostVideo
+import ru.netology.nerecipe.dto.Recipe
+import ru.netology.nerecipe.dto.CookingSteps
 import ru.netology.nerecipe.util.SingleLiveEvent
 
 class PostViewModel(
@@ -23,21 +23,23 @@ class PostViewModel(
     val navigateToPostContentScreenEvent = SingleLiveEvent<String>()
     val navigateToPostScreenEvent = SingleLiveEvent<Long>()
 
-    val currentPost = MutableLiveData<Post?>(null)
+    val currentPost = MutableLiveData<Recipe?>(null)
 
     fun onSaveButtonClicked(content: String) {
         if (content.isBlank()) return
         val post = currentPost.value?.copy(
-            content = content
-        ) ?: Post(
+            description = content
+        ) ?: Recipe(
             id = PostRepository.NEW_POST_ID,
             author = "Me",
-            content = content,
-            published = "Today",
-            postVideo = PostVideo(
-                url = "https://www.youtube.com/watch?v=xOgT2qYAzds",
-                title = "Онлайн-образование. Революция уже наступила?"
-            )
+            description = content,
+            category = "World",
+            steps = listOf(
+                CookingSteps(stepDescription = "step 1", stepNumber = 1, stepTime = 11),
+                CookingSteps(stepDescription = "step 2", stepNumber = 2, stepTime = 22),
+                CookingSteps(stepDescription = "step 3", stepNumber = 3, stepTime = 33)
+            ),
+            title = "Title"
         )
         repository.save(post)
         currentPost.value = null
@@ -50,33 +52,33 @@ class PostViewModel(
 
     // region  PostInteractionListener
 
-    override fun onLikeClicked(post: Post) = repository.like(post.id)
+    override fun onLikeClicked(recipe: Recipe) = repository.like(recipe.id)
 
-    override fun onShareClicked(post: Post) {
-        sharePostContent.value = post.content
+    override fun onShareClicked(recipe: Recipe) {
+        sharePostContent.value = recipe.description
 
     }
 
-    override fun onViewClicked(post: Post) = repository.view(post.id)
+    override fun onViewClicked(recipe: Recipe) = repository.view(recipe.id)
 
-    override fun onRemoveClicked(post: Post) = repository.delete(post.id)
+    override fun onRemoveClicked(recipe: Recipe) = repository.delete(recipe.id)
 
-    override fun onEditClicked(post: Post) {
-        currentPost.value = post
-        navigateToPostContentScreenEvent.value = post.content
+    override fun onEditClicked(recipe: Recipe) {
+        currentPost.value = recipe
+        navigateToPostContentScreenEvent.value = recipe.description
     }
 
-    override fun onPostClicked(post: Post) {
-        navigateToPostScreenEvent.value = post.id
+    override fun onPostClicked(recipe: Recipe) {
+        navigateToPostScreenEvent.value = recipe.id
     }
 
     override fun onUndoClicked() {
         currentPost.value = null
     }
 
-    override fun onPlayVideoClicked(postVideo: PostVideo) {
-        videoPlay.value = postVideo.url!!
-    }
+//    override fun onPlayVideoClicked(cookingSteps: CookingSteps) {
+//        videoPlay.value = cookingSteps.url!!
+//    }
 
 // endregion  PostInteractionListener
 }

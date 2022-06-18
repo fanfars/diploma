@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import ru.netology.nerecipe.data.PostRepository
-import ru.netology.nerecipe.dto.Post
+import ru.netology.nerecipe.dto.Recipe
 import kotlin.properties.Delegates
 
 class FilePostRepository(
@@ -15,7 +15,7 @@ class FilePostRepository(
 ) : PostRepository {
 
     private val gson = Gson()
-    private val type = TypeToken.getParameterized(List::class.java, Post::class.java).type
+    private val type = TypeToken.getParameterized(List::class.java, Recipe::class.java).type
 
     private val prefs = application.getSharedPreferences(
         "repo", Context.MODE_PRIVATE
@@ -39,23 +39,23 @@ class FilePostRepository(
             data.value = value
         }
 
-    override val data: MutableLiveData<List<Post>>
+    override val data: MutableLiveData<List<Recipe>>
 
     init {
         val postsFile = application.filesDir.resolve(FILE_NAME)
-        val posts: List<Post> = if (postsFile.exists()) {
+        val recipes: List<Recipe> = if (postsFile.exists()) {
             val inputStream = application.openFileInput(FILE_NAME)
             val reader = inputStream.bufferedReader()
             reader.use { gson.fromJson(it, type) }
         } else emptyList()
-        data = MutableLiveData(posts)
+        data = MutableLiveData(recipes)
     }
 
     override fun like(postId: Long) {
         posts = posts.map {
             if (it.id != postId) it else it.copy(
-                likedByMe = !it.likedByMe,
-                likes = if (it.likedByMe) it.likes - 1 else it.likes + 1
+                isFavorite = !it.isFavorite,
+                likes = if (it.isFavorite) it.likes - 1 else it.likes + 1
             )
         }
     }
@@ -71,7 +71,7 @@ class FilePostRepository(
     override fun view(postId: Long) {
         posts = posts.map {
             if (it.id != postId) it else it.copy(
-                views = it.views + 1
+                cookingTime = it.cookingTime + 1
             )
         }
     }
@@ -80,19 +80,19 @@ class FilePostRepository(
         posts = posts.filterNot { it.id == postId }
     }
 
-    override fun save(post: Post) {
-        if (post.id == PostRepository.NEW_POST_ID) insert(post) else update(post)
+    override fun save(recipe: Recipe) {
+        if (recipe.id == PostRepository.NEW_POST_ID) insert(recipe) else update(recipe)
     }
 
-    private fun update(post: Post) {
+    private fun update(recipe: Recipe) {
         posts = posts.map {
-            if (it.id == post.id) post else it
+            if (it.id == recipe.id) recipe else it
         }
     }
 
-    private fun insert(post: Post) {
+    private fun insert(recipe: Recipe) {
         posts = listOf(
-            post.copy(id = ++nextId)
+            recipe.copy(id = ++nextId)
         ) + posts
     }
 

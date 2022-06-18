@@ -8,7 +8,7 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import ru.netology.nerecipe.data.PostRepository
-import ru.netology.nerecipe.dto.Post
+import ru.netology.nerecipe.dto.Recipe
 import kotlin.properties.Delegates
 
 class SharedPrefsPostRepository(
@@ -38,21 +38,21 @@ class SharedPrefsPostRepository(
             data.value = value
         }
 
-    override val data: MutableLiveData<List<Post>>
+    override val data: MutableLiveData<List<Recipe>>
 
     init {
         val serializedPosts = prefs.getString(POSTS_PREFS_KEY, null)
-        val posts: List<Post> = if (serializedPosts != null) {
+        val recipes: List<Recipe> = if (serializedPosts != null) {
             Json.decodeFromString(serializedPosts)
         } else emptyList()
-        data = MutableLiveData(posts)
+        data = MutableLiveData(recipes)
     }
 
     override fun like(postId: Long) {
         posts = posts.map {
             if (it.id != postId) it else it.copy(
-                likedByMe = !it.likedByMe,
-                likes = if (it.likedByMe) it.likes - 1 else it.likes + 1
+                isFavorite = !it.isFavorite,
+                likes = if (it.isFavorite) it.likes - 1 else it.likes + 1
             )
         }
     }
@@ -68,7 +68,7 @@ class SharedPrefsPostRepository(
     override fun view(postId: Long) {
         posts = posts.map {
             if (it.id != postId) it else it.copy(
-                views = it.views + 1
+                cookingTime = it.cookingTime + 1
             )
         }
     }
@@ -77,19 +77,19 @@ class SharedPrefsPostRepository(
         posts = posts.filterNot { it.id == postId }
     }
 
-    override fun save(post: Post) {
-        if (post.id == PostRepository.NEW_POST_ID) insert(post) else update(post)
+    override fun save(recipe: Recipe) {
+        if (recipe.id == PostRepository.NEW_POST_ID) insert(recipe) else update(recipe)
     }
 
-    private fun update(post: Post) {
+    private fun update(recipe: Recipe) {
         posts = posts.map {
-            if (it.id == post.id) post else it
+            if (it.id == recipe.id) recipe else it
         }
     }
 
-    private fun insert(post: Post) {
+    private fun insert(recipe: Recipe) {
         posts = listOf(
-            post.copy(id = ++nextId)
+            recipe.copy(id = ++nextId)
         ) + posts
     }
 

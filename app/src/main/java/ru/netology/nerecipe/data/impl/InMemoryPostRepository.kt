@@ -2,7 +2,7 @@ package ru.netology.nerecipe.data.impl
 
 import androidx.lifecycle.MutableLiveData
 import ru.netology.nerecipe.data.PostRepository
-import ru.netology.nerecipe.dto.Post
+import ru.netology.nerecipe.dto.Recipe
 
 class InMemoryPostRepository : PostRepository {
 
@@ -13,15 +13,16 @@ class InMemoryPostRepository : PostRepository {
 
     override val data = MutableLiveData(
         List(GENERATED_POSTS_AMOUNT) { index ->
-            Post(
+            Recipe(
                 id = index + 1L,
                 author = "Netology",
-                content = "Some random content $index",
-                published = "07/05/2022",
+                description = "Some random content $index",
+                category = "World",
                 likes = 9999,
                 shares = 99999,
-                views = 150,
-                postVideo = null
+                cookingTime = 150,
+                steps = null,
+                title = "Title"
             )
         }
     )
@@ -29,8 +30,8 @@ class InMemoryPostRepository : PostRepository {
     override fun like(postId: Long) {
         data.value = posts.map {
             if (it.id != postId) it else it.copy(
-                likedByMe = !it.likedByMe,
-                likes = if (it.likedByMe) it.likes - 1 else it.likes + 1
+                isFavorite = !it.isFavorite,
+                likes = if (it.isFavorite) it.likes - 1 else it.likes + 1
             )
         }
     }
@@ -46,7 +47,7 @@ class InMemoryPostRepository : PostRepository {
     override fun view(postId: Long) {
         data.value = posts.map {
             if (it.id != postId) it else it.copy(
-                views = it.views + 1
+                cookingTime = it.cookingTime + 1
             )
         }
     }
@@ -55,19 +56,19 @@ class InMemoryPostRepository : PostRepository {
         data.value = posts.filterNot { it.id == postId }
     }
 
-    override fun save(post: Post) {
-        if (post.id == PostRepository.NEW_POST_ID) insert(post) else update(post)
+    override fun save(recipe: Recipe) {
+        if (recipe.id == PostRepository.NEW_POST_ID) insert(recipe) else update(recipe)
     }
 
-    private fun update(post: Post) {
+    private fun update(recipe: Recipe) {
         data.value = posts.map {
-            if (it.id == post.id) post else it
+            if (it.id == recipe.id) recipe else it
         }
     }
 
-    private fun insert(post: Post) {
+    private fun insert(recipe: Recipe) {
         data.value = listOf(
-            post.copy(id = ++nextId)
+            recipe.copy(id = ++nextId)
         ) + posts
     }
 

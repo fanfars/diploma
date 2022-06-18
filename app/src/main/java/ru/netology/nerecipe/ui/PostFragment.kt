@@ -15,7 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import ru.netology.nerecipe.R
 import ru.netology.nerecipe.databinding.PostFragmentBinding
-import ru.netology.nerecipe.dto.Post
+import ru.netology.nerecipe.dto.Recipe
 import ru.netology.nerecipe.dto.countFormat
 import ru.netology.nerecipe.viewModel.PostViewModel
 
@@ -25,7 +25,7 @@ class PostFragment : Fragment() {
 
     private val viewModel by viewModels<PostViewModel>()
 
-    private lateinit var singlePost: Post
+    private lateinit var singleRecipe: Recipe
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,8 +39,8 @@ class PostFragment : Fragment() {
         return PostFragmentBinding.inflate(layoutInflater, container, false).also { binding ->
             with(binding) {
                 viewModel.data.value?.let { posts ->
-                    singlePost = posts.first { post -> post.id == args.postId }
-                    render(singlePost)
+                    singleRecipe = posts.first { post -> post.id == args.postId }
+                    render(singleRecipe)
                 }
                 viewModel.data.observe(viewLifecycleOwner) { posts ->
                     if (!posts.any { post -> post.id == args.postId }) {
@@ -49,8 +49,8 @@ class PostFragment : Fragment() {
                     if (posts.isNullOrEmpty()) {
                         return@observe
                     }
-                    singlePost = posts.first { post -> post.id == args.postId }
-                    render(singlePost)
+                    singleRecipe = posts.first { post -> post.id == args.postId }
+                    render(singleRecipe)
                 }
                 setFragmentResultListener(requestKey = PostContentFragment.REQUEST_KEY) { requestKey, bundle ->
                     if (requestKey != PostContentFragment.REQUEST_KEY) return@setFragmentResultListener
@@ -63,11 +63,11 @@ class PostFragment : Fragment() {
                     findNavController().navigate(direction)
                 }
                 likesButton.setOnClickListener {
-                    viewModel.onLikeClicked(singlePost)
+                    viewModel.onLikeClicked(singleRecipe)
                 }
 
-                viewsButton.setOnClickListener { viewModel.onViewClicked(singlePost) }
-                shareButton.setOnClickListener { viewModel.onShareClicked(singlePost) }
+//                cookingTimeCount.setOnClickListener { viewModel.onViewClicked(singleRecipe) }
+                shareButton.setOnClickListener { viewModel.onShareClicked(singleRecipe) }
 
                 viewModel.sharePostContent.observe(viewLifecycleOwner) { postContent ->
                     val intent = Intent().apply {
@@ -80,8 +80,8 @@ class PostFragment : Fragment() {
                     startActivity(shareIntent)
                 }
 
-                videoCover.setOnClickListener { viewModel.onPlayVideoClicked(singlePost.postVideo!!) }
-                videoContent.setOnClickListener { viewModel.onPlayVideoClicked(singlePost.postVideo!!) }
+//                recipeCover.setOnClickListener { viewModel.onPlayVideoClicked(singleRecipe.steps!!) }
+//                stepsDescription.setOnClickListener { viewModel.onPlayVideoClicked(singleRecipe.steps!!) }
 
                 viewModel.videoPlay.observe(viewLifecycleOwner) { videoLink ->
                     val intent = Intent(Intent.ACTION_VIEW).apply {
@@ -99,14 +99,14 @@ class PostFragment : Fragment() {
                         setOnMenuItemClickListener { option ->
                             when (option.itemId) {
                                 R.id.remove -> {
-                                    viewModel.onRemoveClicked(singlePost)
+                                    viewModel.onRemoveClicked(singleRecipe)
                                     val direction = PostFragmentDirections.fromPostToFeedFragment()
                                     findNavController().navigate(direction)
 
                                     true
                                 }
                                 R.id.edit -> {
-                                    viewModel.onEditClicked(singlePost)
+                                    viewModel.onEditClicked(singleRecipe)
                                     true
                                 }
                                 else -> {
@@ -123,16 +123,16 @@ class PostFragment : Fragment() {
         }.root
     }
 
-    private fun PostFragmentBinding.render(post: Post) {
-        author.text = post.author
-        content.text = post.content
-        published.text = post.published
-        likesButton.text = countFormat(post.likes)
-        shareButton.text = countFormat(post.shares)
-        viewsButton.text = countFormat(post.views)
-        likesButton.isChecked = post.likedByMe
-        videoContent.text = post.postVideo?.title
-        if (post.postVideo != null) videoGroup.visibility =
+    private fun PostFragmentBinding.render(recipe: Recipe) {
+        author.text = recipe.author
+        content.text = recipe.description
+        category.text = recipe.category
+        likesButton.text = countFormat(recipe.likes)
+        shareButton.text = countFormat(recipe.shares)
+        cookingTimeCount.text = countFormat(recipe.cookingTime)
+        likesButton.isChecked = recipe.isFavorite
+        stepsDescription.text = R.string.steps_description.toString()
+        if (recipe.steps != null) videoGroup.visibility =
             View.VISIBLE else videoGroup.visibility = View.GONE
     }
 
