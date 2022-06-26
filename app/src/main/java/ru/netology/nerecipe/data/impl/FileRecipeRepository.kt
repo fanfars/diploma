@@ -2,17 +2,19 @@ package ru.netology.nerecipe.data.impl
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import androidx.core.content.edit
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import ru.netology.nerecipe.data.PostRepository
+import ru.netology.nerecipe.data.RecipeRepository
 import ru.netology.nerecipe.dto.Recipe
+import java.util.*
 import kotlin.properties.Delegates
 
-class FilePostRepository(
+class FileRecipeRepository(
     private val application: Application
-) : PostRepository {
+) : RecipeRepository {
 
     private val gson = Gson()
     private val type = TypeToken.getParameterized(List::class.java, Recipe::class.java).type
@@ -28,7 +30,7 @@ class FilePostRepository(
     }
 
 
-    private var posts
+    private var recipes
         get() = checkNotNull(data.value) { "Data value should not be null" }
         set(value) {
             application.openFileOutput(
@@ -52,7 +54,7 @@ class FilePostRepository(
     }
 
     override fun like(postId: Long) {
-        posts = posts.map {
+        recipes = recipes.map {
             if (it.id != postId) it else it.copy(
                 isFavorite = !it.isFavorite,
                 likes = if (it.isFavorite) it.likes - 1 else it.likes + 1
@@ -61,39 +63,58 @@ class FilePostRepository(
     }
 
     override fun share(postId: Long) {
-        posts = posts.map {
+        recipes = recipes.map {
             if (it.id != postId) it else it.copy(
                 shares = it.shares + 1
             )
         }
     }
 
-    override fun view(postId: Long) {
-        posts = posts.map {
-            if (it.id != postId) it else it.copy(
-                cookingTime = it.cookingTime + 1
-            )
-        }
-    }
+//    override fun view(postId: Long) {
+//        recipes = recipes.map {
+//            if (it.id != postId) it else it.copy(
+//                cookingTime = it.cookingTime + 1
+//            )
+//        }
+//    }
 
     override fun delete(postId: Long) {
-        posts = posts.filterNot { it.id == postId }
+        recipes = recipes.filterNot { it.id == postId }
     }
 
     override fun save(recipe: Recipe) {
-        if (recipe.id == PostRepository.NEW_POST_ID) insert(recipe) else update(recipe)
+        if (recipe.id == RecipeRepository.NEW_POST_ID) insert(recipe) else update(recipe)
     }
 
     private fun update(recipe: Recipe) {
-        posts = posts.map {
+        recipes = recipes.map {
             if (it.id == recipe.id) recipe else it
         }
     }
 
     private fun insert(recipe: Recipe) {
-        posts = listOf(
+        recipes = listOf(
             recipe.copy(id = ++nextId)
-        ) + posts
+        ) + recipes
+    }
+
+    override fun moveRecipeToPosition(from: Long, to: Long) {
+        val destinationRecipe = recipes.first { it.id == to }
+        val movableRecipe = recipes.first { it.id == from }
+        Collections.swap(
+            recipes,
+            recipes.indexOf(destinationRecipe),
+            recipes.indexOf(movableRecipe)
+        )
+
+    }
+
+    override fun countOfRecipes(): Long {
+        return recipes.size.toLong()
+    }
+
+    override fun getLastId(): Long {
+        return nextId
     }
 
     private companion object {

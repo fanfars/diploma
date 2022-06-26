@@ -8,19 +8,19 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import ru.netology.nerecipe.databinding.PostContentFragmentBinding
+import ru.netology.nerecipe.databinding.EditFragmentBinding
 import ru.netology.nerecipe.util.showKeyboard
 
 
-class PostContentFragment : Fragment() {
+class EditFragment : Fragment() {
 
-    private val args by navArgs<PostContentFragmentArgs>()
+    private val args by navArgs<EditFragmentArgs>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = PostContentFragmentBinding.inflate(layoutInflater, container, false).also { binding ->
+    ) = EditFragmentBinding.inflate(layoutInflater, container, false).also { binding ->
         binding.edit.setText(args.initialContent)
         if (args.initialContent != null) binding.undoButton.visibility = View.VISIBLE
         binding.edit.requestFocus()
@@ -39,7 +39,7 @@ class PostContentFragment : Fragment() {
         }
     }.root
 
-    private fun onOkButtonClicked(binding: PostContentFragmentBinding) {
+    private fun onOkButtonClicked(binding: EditFragmentBinding) {
         val text = binding.edit.text
         if (!text.isNullOrBlank()) {
             val resultBundle = Bundle(1)

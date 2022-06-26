@@ -10,16 +10,16 @@
         android:name="ru.netology.nerecipe.ui.FeedFragment"
         tools:layout="@layout/feed_fragment">
         <action
-            android:id="@+id/toPostContentFragment"
-            app:destination="@id/postContentFragment" />
-        <action
             android:id="@+id/toPostFragment"
-            app:destination="@id/postFragment" />
+            app:destination="@id/recipeFragment" />
+        <action
+            android:id="@+id/fromFeedFragmentToNewRecipe"
+            app:destination="@id/editRecipeFragment" />
     </fragment>
     <fragment
-        android:id="@+id/postContentFragment"
-        android:name="ru.netology.nerecipe.ui.PostContentFragment"
-        tools:layout="@layout/post_content_fragment">
+        android:id="@+id/editFragment"
+        android:name="ru.netology.nerecipe.ui.EditFragment"
+        tools:layout="@layout/edit_fragment">
 
         <argument
             android:name="initialContent"
@@ -28,17 +28,46 @@
 
     </fragment>
     <fragment
-        android:id="@+id/postFragment"
-        android:name="ru.netology.nerecipe.ui.PostFragment"
-        tools:layout="@layout/post_with_scroll">
+        android:id="@+id/recipeFragment"
+        android:name="ru.netology.nerecipe.ui.RecipeFragment"
+        tools:layout="@layout/full_recipe_fragment">
         <action
-            android:id="@+id/toPostContentFragment"
-            app:destination="@id/postContentFragment" />
+            android:id="@+id/toEditFragment"
+            app:destination="@id/editFragment" />
         <action
-            android:id="@+id/fromPostToFeedFragment"
+            android:id="@+id/toEditRecipeFragment"
+            app:destination="@id/editRecipeFragment" />
+        <action
+            android:id="@+id/fromRecipeToFeedFragment"
             app:destination="@id/feedFragment" />
+        <action
+            android:id="@+id/fromRecipeToStepsFragment"
+            app:destination="@id/stepsFragment" />
         <argument
-            android:name="postId"
+            android:name="recipeId"
             app:argType="long" />
     </fragment>
+    <fragment
+        android:id="@+id/stepsFragment"
+        android:name="ru.netology.nerecipe.ui.StepsFragment"
+        tools:layout="@layout/steps_recycler_view_fragment">
+        <action
+            android:id="@+id/fromStepsToRecipeFragment"
+            app:destination="@id/recipeFragment" />
+        <argument
+            android:name="stepsRecipeId"
+            app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/editRecipeFragment"
+        android:name="ru.netology.nerecipe.ui.EditRecipeFragment"
+        tools:layout="@layout/edit_recipe_fragment">
+        <action
+            android:id="@+id/fromNewToFeedFragment"
+            app:destination="@id/feedFragment" />
+        <argument
+            android:name="recipeId"
+            app:argType="long" />
+    </fragment>
+
 </navigation>

@@ -5,4 +5,5 @@
     <dimen name = "min_spacing">4dp</dimen>
     <dimen name = "icon_button_min_size">48dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="pic_dimens">120dp</dimen>
 </resources>

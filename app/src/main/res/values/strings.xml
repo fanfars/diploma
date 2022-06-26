@@ -6,7 +6,7 @@
     <string name="author">Гордон Рамзи</string>
     <string name="category">Russian</string>
     <string name="demo">Привет, это новая Нетология! Когда-то Нетология начиналась с интенсивов по онлайн-маркетингу.</string>
-    <string name="content">Манты</string>
+    <string name="recipe_step">Защипнуть края теста: сначала соединить противоположные стороны, защипнуть их. Затем сформировать \"ушки\" и соединить их попарно. В отличие от пельменей манты не обязательно защипывать \"наглухо\", ведь вариться они будут на пару.</string>
     <string name="likesCount">9999</string>
     <string name="sharesCount">999</string>
     <string name="viewsCount">99</string>
@@ -22,4 +22,28 @@
     <string name="video_cover">Video cover</string>
     <string name="chooser_play_video">Play video</string>
     <string name="post_avatar">Post avatar</string>
+    <string name="recipe_description">Манты – традиционное азиатское горячее мясное блюдо. Тесто с мясной начинкой, приготовленное на пару, это и есть манты. Очень важен правильный рецепт теста для мантов, или теста на манты</string>
+    <string name="step">Step</string>
+    <string name="recipe_title">Манты Манты Манты Манты</string>
+    <string name="stepAfterDescription">Step after</string>
+    <string name="steps_button">Steps</string>
+    <string name="stepBeforeDescription">Step before</string>
+    <string name="European">European</string>
+    <string name="Asian">Asian</string>
+    <string name="PanAsian">PanAsian</string>
+    <string name="Eastern">Eastern</string>
+    <string name="American">American</string>
+    <string name="Russian">Russian</string>
+    <string name="Mediterranean">Mediterranean</string>
+    <string name="spiner_name">Category</string>
+    <string name="stepsDescriptionText">Описание шагов</string>
+    <string-array name="category_array">
+        <item>European</item>
+        <item>Asian</item>
+        <item>PanAsian</item>
+        <item>Eastern</item>
+        <item>American</item>
+        <item>Russian</item>
+        <item>Mediterranean</item>
+    </string-array>
 </resources>

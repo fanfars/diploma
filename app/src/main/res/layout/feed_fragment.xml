@@ -7,11 +7,11 @@
     tools:context=".ui.FeedFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/postRecyclerView"
+        android:id="@+id/recipeRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/post_fragment" />
+        tools:listitem="@layout/recipe_fragment" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

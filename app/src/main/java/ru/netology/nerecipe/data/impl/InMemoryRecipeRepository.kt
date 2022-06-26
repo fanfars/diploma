@@ -1,10 +1,11 @@
 package ru.netology.nerecipe.data.impl
 
 import androidx.lifecycle.MutableLiveData
-import ru.netology.nerecipe.data.PostRepository
+import ru.netology.nerecipe.data.RecipeRepository
+import ru.netology.nerecipe.dto.CookingStep
 import ru.netology.nerecipe.dto.Recipe
 
-class InMemoryPostRepository : PostRepository {
+class InMemoryRecipeRepository : RecipeRepository {
 
     private var nextId = GENERATED_POSTS_AMOUNT.toLong()
 
@@ -17,11 +18,13 @@ class InMemoryPostRepository : PostRepository {
                 id = index + 1L,
                 author = "Netology",
                 description = "Some random content $index",
-                category = "World",
+                category = "category",
                 likes = 9999,
                 shares = 99999,
                 cookingTime = 150,
-                steps = null,
+                steps = listOf(
+                    CookingStep(stepDescription = "step 1", stepNumber = 1, stepTime = 11)
+                ),
                 title = "Title"
             )
         }
@@ -44,20 +47,32 @@ class InMemoryPostRepository : PostRepository {
         }
     }
 
-    override fun view(postId: Long) {
-        data.value = posts.map {
-            if (it.id != postId) it else it.copy(
-                cookingTime = it.cookingTime + 1
-            )
-        }
-    }
+//    override fun view(postId: Long) {
+//        data.value = posts.map {
+//            if (it.id != postId) it else it.copy(
+//                cookingTime = it.cookingTime + 1
+//            )
+//        }
+//    }
 
     override fun delete(postId: Long) {
         data.value = posts.filterNot { it.id == postId }
     }
 
     override fun save(recipe: Recipe) {
-        if (recipe.id == PostRepository.NEW_POST_ID) insert(recipe) else update(recipe)
+        if (recipe.id == RecipeRepository.NEW_POST_ID) insert(recipe) else update(recipe)
+    }
+
+    override fun moveRecipeToPosition(from: Long, to: Long) {
+        TODO("Not yet implemented")
+    }
+
+    override fun countOfRecipes(): Long {
+        TODO("Not yet implemented")
+    }
+
+    override fun getLastId(): Long {
+        TODO("Not yet implemented")
     }
 
     private fun update(recipe: Recipe) {

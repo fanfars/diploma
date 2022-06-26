@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:padding="2dp">
 
     <ImageView
@@ -58,13 +58,25 @@
         android:ellipsize="marquee"
         android:padding="2dp"
         android:singleLine="true"
-        android:textSize="24dp"
         app:layout_constraintBottom_toTopOf="@id/author"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/menu"
         app:layout_constraintStart_toEndOf="@id/avatar"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="spread"
-        tools:text="@string/recipe_title" />
+        tools:text="@string/recipe_title"
+        tools:textSize="24dp" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
+        android:src="@drawable/ic_options_24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/title"
+        app:layout_constraintTop_toTopOf="@id/title" />
 
 
     <com.google.android.material.button.MaterialButton
@@ -106,5 +118,32 @@
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
         app:constraint_referenced_ids="avatar,likesButton,shareButton,cookingTimeCount" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/recipeDescription"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/min_spacing"
+        android:layout_marginTop="@dimen/min_spacing"
+        android:layout_marginEnd="@dimen/min_spacing"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toTopOf="@id/stepsButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/barrierRecipeHeadContent"
+        tools:text="@string/recipe_description" />
+
+
+    <Button
+        android:id="@+id/stepsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/steps_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
