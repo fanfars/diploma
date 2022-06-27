@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResultListener
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -21,7 +21,7 @@ import ru.netology.nerecipe.viewModel.RecipeViewModel
 class FeedFragment : Fragment() {
 
     private val viewModel by viewModels<RecipeViewModel>()
-    private val editRecipeViewModel by viewModels<EditRecipeViewModel>()
+    private val editRecipeViewModel by activityViewModels<EditRecipeViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,19 +37,6 @@ class FeedFragment : Fragment() {
             )
             startActivity(shareIntent)
         }
-
-//        setFragmentResultListener(
-//            requestKey = EditFragment.REQUEST_KEY
-//        ) { requestKey, bundle ->
-//            if (requestKey != EditFragment.REQUEST_KEY) return@setFragmentResultListener
-//            val newPostContent = bundle.getString(EditFragment.RESULT_KEY)
-//
-//                ?: return@setFragmentResultListener
-//            viewModel.onSaveButtonClicked(viewModel.data.value)
-//
-//        }
-
-
 
         editRecipeViewModel.navigateToNewRecipeFragment.observe(this) { newRecipeId ->
             val direction = FeedFragmentDirections.fromFeedFragmentToNewRecipe(newRecipeId)
@@ -88,6 +75,10 @@ class FeedFragment : Fragment() {
             adapter.submitList(recipes)
         }
 
+        viewModel.recipeCardMoveEvent.observe(viewLifecycleOwner) {
+
+        }
+
         val simpleCallback = object :
             ItemTouchHelper.SimpleCallback(ItemTouchHelper.ACTION_STATE_DRAG, ItemTouchHelper.END) {
             override fun isLongPressDragEnabled(): Boolean {
@@ -108,10 +99,20 @@ class FeedFragment : Fragment() {
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
+                val fromPositionId = adapter.currentList[viewHolder.adapterPosition].id
+//                val toPositionId = adapter.currentList[target.adapterPosition].id
                 val fromPosition = adapter.currentList[viewHolder.adapterPosition].id
                 val toPosition = adapter.currentList[target.adapterPosition].id
-                viewModel.moveRecipe(fromPosition, toPosition)
-                adapter.notifyItemMoved(viewHolder.adapterPosition, target.adapterPosition)
+                if (fromPosition < toPosition) {
+                    for (i in fromPosition until toPosition) {
+                        viewModel.recipeUp(fromPositionId)
+                    }
+                } else {
+                    for (i in fromPosition downTo toPosition + 1) {
+                        viewModel.recipeDown(fromPositionId)
+                    }
+                }
+                viewModel.recipeCardMoveEvent.call()
                 return true
             }
 
@@ -119,6 +120,7 @@ class FeedFragment : Fragment() {
                 if (direction == ItemTouchHelper.END || direction == ItemTouchHelper.START) {
                     val recipeId = adapter.currentList[viewHolder.adapterPosition].id
                     viewModel.removeRecipeById(recipeId)
+                    adapter.notifyItemRemoved(viewHolder.adapterPosition)
                 }
             }
         }
@@ -126,7 +128,7 @@ class FeedFragment : Fragment() {
         itemTouchHelper.attachToRecyclerView(binding.recipeRecyclerView)
 
         binding.fab.setOnClickListener {
-           editRecipeViewModel.onAddButtonClicked()
+            editRecipeViewModel.onAddButtonClicked()
         }
 
     }.root

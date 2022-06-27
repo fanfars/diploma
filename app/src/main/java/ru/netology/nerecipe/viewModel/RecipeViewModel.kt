@@ -20,6 +20,7 @@ class RecipeViewModel(
 
     val data by repository::data
     val navigateToNewRecipeFragment = SingleLiveEvent<Long>()
+    val recipeCardMoveEvent = SingleLiveEvent<Unit>()
     val shareRecipeContent = SingleLiveEvent<String>()
     val videoPlay = SingleLiveEvent<String>()
     val navigateToEditRecipeFragment = SingleLiveEvent<Long>()
@@ -114,16 +115,6 @@ class RecipeViewModel(
         if (recipeID == repository.countOfRecipes()) return else
             repository.moveRecipeToPosition(recipeID, recipeID + 1L)
     }
-
-//    override fun inFilterByNameChange(filter: String) {
-//        filterByName.value = filter
-//        recipeFilter.value = RecipeFilter(filter, filterByCategory.value!!)
-//    }
-
-
-//    override fun onPlayVideoClicked(cookingSteps: CookingSteps) {
-//        videoPlay.value = cookingSteps.url!!
-//    }
 
 // endregion  RecipeInteractionListener
 }

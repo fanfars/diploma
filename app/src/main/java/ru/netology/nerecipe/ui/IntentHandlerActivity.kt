@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
-import ru.netology.nerecipe.databinding.IntentHandlerActivityBinding
 
 class IntentHandlerActivity : AppCompatActivity() {
 

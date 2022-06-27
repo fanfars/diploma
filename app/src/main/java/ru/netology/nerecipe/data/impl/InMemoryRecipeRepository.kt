@@ -47,14 +47,6 @@ class InMemoryRecipeRepository : RecipeRepository {
         }
     }
 
-//    override fun view(postId: Long) {
-//        data.value = posts.map {
-//            if (it.id != postId) it else it.copy(
-//                cookingTime = it.cookingTime + 1
-//            )
-//        }
-//    }
-
     override fun delete(postId: Long) {
         data.value = posts.filterNot { it.id == postId }
     }

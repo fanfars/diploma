@@ -9,7 +9,6 @@ import ru.netology.nerecipe.databinding.StepFragmentBinding
 import ru.netology.nerecipe.dto.CookingStep
 
 
-
 internal class StepAdapter(
     private val interactionListener: StepInteractionListener
 ) : ListAdapter<CookingStep, StepAdapter.ViewHolder>(DiffCallback) {

@@ -2,7 +2,6 @@ package ru.netology.nerecipe.data.impl
 
 import android.app.Application
 import android.content.Context
-import android.util.Log
 import androidx.core.content.edit
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
@@ -69,14 +68,6 @@ class FileRecipeRepository(
             )
         }
     }
-
-//    override fun view(postId: Long) {
-//        recipes = recipes.map {
-//            if (it.id != postId) it else it.copy(
-//                cookingTime = it.cookingTime + 1
-//            )
-//        }
-//    }
 
     override fun delete(postId: Long) {
         recipes = recipes.filterNot { it.id == postId }

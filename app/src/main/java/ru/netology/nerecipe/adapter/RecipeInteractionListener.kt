@@ -6,8 +6,6 @@ interface RecipeInteractionListener {
 
     fun onLikeClicked(recipe: Recipe)
     fun onShareClicked(recipe: Recipe)
-
-    //    fun onViewClicked(recipe: Recipe)
     fun onRemoveClicked(recipe: Recipe)
     fun onEditClicked(recipe: Recipe)
     fun onPostClicked(recipe: Recipe)
@@ -17,6 +15,5 @@ interface RecipeInteractionListener {
     fun recipeDown(recipeID: Long)
     fun recipeUp(recipeID: Long)
 
-//    fun onPlayVideoClicked(cookingSteps: CookingSteps)
 
 }

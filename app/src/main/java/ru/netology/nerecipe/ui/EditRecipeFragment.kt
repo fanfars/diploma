@@ -58,22 +58,8 @@ class EditRecipeFragment : Fragment() {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-//                if (currentRecipe == null) {
-//                    text = "Category not selected"
-//                } else {
-//                    val categoryString =
-//                        viewModel.getCategoryById(currentRecipe.categoryId).categoryName
-//                    selection.text = categoryString
-//                }
             }
-
         })
-
-//        binding.edit.setText(args.initialContent)
-//        if (args.initialContent != null) binding.undoButton.visibility = View.VISIBLE
-//        binding.edit.requestFocus()
-//        binding.edit.showKeyboard()
-
 
         binding.saveRecipeButton.setOnClickListener {
             onOkButtonClicked(binding)
@@ -86,17 +72,6 @@ class EditRecipeFragment : Fragment() {
 //            findNavController().popBackStack()
 //        }
     }.root
-
-//    private fun onOkButtonClicked(binding: EditRecipeFragmentBinding) {
-//        val text = binding.edit.text
-//        if (!text.isNullOrBlank()) {
-//            val resultBundle = Bundle(1)
-//            resultBundle.putString(RESULT_KEY, text.toString())
-//            setFragmentResult(REQUEST_KEY, resultBundle)
-//        }
-//        findNavController().popBackStack()
-//    }
-
 
     private fun onOkButtonClicked(binding: EditRecipeFragmentBinding) {
         val stepTime = binding.stepTime.getText().toString()

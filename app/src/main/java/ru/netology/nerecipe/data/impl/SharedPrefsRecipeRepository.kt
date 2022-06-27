@@ -2,7 +2,6 @@ package ru.netology.nerecipe.data.impl
 
 import android.app.Application
 import android.content.Context
-import android.util.Log
 import androidx.core.content.edit
 import androidx.lifecycle.MutableLiveData
 import kotlinx.serialization.decodeFromString
@@ -10,22 +9,14 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import ru.netology.nerecipe.data.RecipeRepository
 import ru.netology.nerecipe.dto.Recipe
-import kotlin.properties.Delegates
 
 class SharedPrefsRecipeRepository(
     application: Application
-)  {
+) {
 
     private val prefs = application.getSharedPreferences(
         "repo", Context.MODE_PRIVATE
     )
-
-//    private var nextId: Long by Delegates.observable(
-//        prefs.getLong(NEXT_ID_PREFS_KEY, 0L)
-//    ) { _, _, newValue ->
-//        prefs.edit { putLong(NEXT_ID_PREFS_KEY, newValue) }
-//    }
-
 
     private var recipes
         get() = checkNotNull(data.value) { "Data value should not be null" }
@@ -47,7 +38,7 @@ class SharedPrefsRecipeRepository(
         data = MutableLiveData(recipes)
     }
 
-   fun like(recipesId: Long) {
+    fun like(recipesId: Long) {
         recipes = recipes.map {
             if (it.id != recipesId) it else it.copy(
                 isFavorite = !it.isFavorite,
