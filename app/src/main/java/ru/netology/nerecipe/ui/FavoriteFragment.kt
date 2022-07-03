@@ -1,7 +1,6 @@
 package ru.netology.nerecipe.ui
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -19,16 +18,15 @@ import ru.netology.nerecipe.viewModel.FilterRecipeViewModel
 import ru.netology.nerecipe.viewModel.RecipeViewModel
 
 
-class FeedFragment : Fragment() {
+class FavoriteFragment : Fragment() {
 
-    private val viewModel by viewModels<RecipeViewModel>()
-    private val editRecipeViewModel by activityViewModels<EditRecipeViewModel>()
     private val filterRecipeViewModel by viewModels<FilterRecipeViewModel>()
-
+    private val editRecipeViewModel by activityViewModels<EditRecipeViewModel>()
+    private val viewModel by viewModels<RecipeViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.shareRecipeContent.observe(this) { postContent ->
+        filterRecipeViewModel.shareRecipeContent.observe(this) { postContent ->
             val intent = Intent().apply {
                 action = Intent.ACTION_SEND
                 putExtra(Intent.EXTRA_TEXT, postContent)
@@ -40,33 +38,16 @@ class FeedFragment : Fragment() {
             startActivity(shareIntent)
         }
 
-        editRecipeViewModel.navigateToNewRecipeFragment.observe(this) { newRecipeId ->
-            val direction = FeedFragmentDirections.fromFeedFragmentToNewRecipe(newRecipeId)
+        viewModel.navigateToRecipeScreen.observe(viewLifecycleOwner) { initialRecipeId ->
+            val direction =
+                FavoriteFragmentDirections.fromFavoriteFragmentToRecipeFragment(initialRecipeId)
             findNavController().navigate(direction)
         }
 
-        viewModel.navigateToRecipeScreen.observe(this) { initialRecipeId ->
-            val direction = FeedFragmentDirections.toPostFragment(initialRecipeId)
+        filterRecipeViewModel.navigateToFeedFragment.observe(viewLifecycleOwner) {
+            val direction = FavoriteFragmentDirections.fromFavoriteFragmentToFeed()
             findNavController().navigate(direction)
         }
-
-        viewModel.navigateToFavoriteFragment.observe(this) {
-            val direction = FeedFragmentDirections.fromFeedFragmentToFavoriteRecipes()
-            findNavController().navigate(direction)
-        }
-
-        viewModel.videoPlay.observe(this) { videoLink ->
-
-            val intent = Intent(Intent.ACTION_VIEW).apply {
-                val uri = Uri.parse(videoLink)
-                data = uri
-            }
-
-            val openVideoIntent =
-                Intent.createChooser(intent, getString(R.string.chooser_play_video))
-            startActivity(openVideoIntent)
-        }
-
     }
 
     override fun onCreateView(
@@ -79,17 +60,17 @@ class FeedFragment : Fragment() {
         binding.recipeRecyclerView.adapter = adapter
 
         viewModel.data.observe(viewLifecycleOwner) { recipes ->
-            adapter.submitList(recipes)
+            val favorite = recipes.filter { it.isFavorite }
+            adapter.submitList(favorite)
         }
 
-        viewModel.recipeCardMoveEvent.observe(viewLifecycleOwner) {
 
-        }
+
 
         val simpleCallback = object :
             ItemTouchHelper.SimpleCallback(ItemTouchHelper.ACTION_STATE_DRAG, ItemTouchHelper.END) {
             override fun isLongPressDragEnabled(): Boolean {
-                return true
+                return false
             }
 
             override fun getMovementFlags(
@@ -106,27 +87,13 @@ class FeedFragment : Fragment() {
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-                val fromPositionId = adapter.currentList[viewHolder.adapterPosition].id
-//                val toPositionId = adapter.currentList[target.adapterPosition].id
-                val fromPosition = adapter.currentList[viewHolder.adapterPosition].id
-                val toPosition = adapter.currentList[target.adapterPosition].id
-                if (fromPosition < toPosition) {
-                    for (i in fromPosition until toPosition) {
-                        viewModel.recipeUp(fromPositionId)
-                    }
-                } else {
-                    for (i in fromPosition downTo toPosition + 1) {
-                        viewModel.recipeDown(fromPositionId)
-                    }
-                }
-                viewModel.recipeCardMoveEvent.call()
-                return true
+                return false
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 if (direction == ItemTouchHelper.END || direction == ItemTouchHelper.START) {
-                    val recipeId = adapter.currentList[viewHolder.adapterPosition].id
-                    viewModel.removeRecipeById(recipeId)
+                    val recipe = adapter.currentList[viewHolder.adapterPosition]
+                    filterRecipeViewModel.onLikeClicked(recipe)
                     adapter.notifyItemRemoved(viewHolder.adapterPosition)
                 }
             }
@@ -136,8 +103,8 @@ class FeedFragment : Fragment() {
 
         binding.bottomToolbar.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.favorites -> {
-                    filterRecipeViewModel.favoriteFilter
+                R.id.Home -> {
+                    filterRecipeViewModel.navigateToFeedFragment.call()
                     true
                 }
 //                R.id.filter -> {

@@ -52,25 +52,25 @@ class FileRecipeRepository(
         data = MutableLiveData(recipes)
     }
 
-    override fun like(postId: Long) {
+    override fun like(recipeId: Long) {
         recipes = recipes.map {
-            if (it.id != postId) it else it.copy(
+            if (it.id != recipeId) it else it.copy(
                 isFavorite = !it.isFavorite,
                 likes = if (it.isFavorite) it.likes - 1 else it.likes + 1
             )
         }
     }
 
-    override fun share(postId: Long) {
+    override fun share(recipeId: Long) {
         recipes = recipes.map {
-            if (it.id != postId) it else it.copy(
+            if (it.id != recipeId) it else it.copy(
                 shares = it.shares + 1
             )
         }
     }
 
-    override fun delete(postId: Long) {
-        recipes = recipes.filterNot { it.id == postId }
+    override fun delete(recipeId: Long) {
+        recipes = recipes.filterNot { it.id == recipeId }
     }
 
     override fun save(recipe: Recipe) {
@@ -106,6 +106,10 @@ class FileRecipeRepository(
 
     override fun getLastId(): Long {
         return nextId
+    }
+
+    override fun favorite(recipeId: Long) {
+        recipes = recipes.filter {it.isFavorite }
     }
 
     private companion object {

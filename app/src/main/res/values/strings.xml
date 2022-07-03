@@ -18,6 +18,7 @@
     <string name="description_post_edit_cancel">Cancel</string>
     <string name="chooser_share_post">Share post</string>
     <string name="add_post">Add post</string>
+    <string name="add_recipe">Add</string>
     <string name="steps_description">Cooking description</string>
     <string name="video_cover">Video cover</string>
     <string name="chooser_play_video">Play video</string>
@@ -37,6 +38,9 @@
     <string name="Mediterranean">Mediterranean</string>
     <string name="spiner_name">Category</string>
     <string name="stepsDescriptionText">Описание шагов</string>
+    <string name="home">Home</string>
+    <string name="favorites">Favorites</string>
+    <string name="filter">Filter</string>
     <string-array name="category_array">
         <item>European</item>
         <item>Asian</item>

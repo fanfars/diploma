@@ -30,25 +30,25 @@ class InMemoryRecipeRepository : RecipeRepository {
         }
     )
 
-    override fun like(postId: Long) {
+    override fun like(recipeId: Long) {
         data.value = posts.map {
-            if (it.id != postId) it else it.copy(
+            if (it.id != recipeId) it else it.copy(
                 isFavorite = !it.isFavorite,
                 likes = if (it.isFavorite) it.likes - 1 else it.likes + 1
             )
         }
     }
 
-    override fun share(postId: Long) {
+    override fun share(recipeId: Long) {
         data.value = posts.map {
-            if (it.id != postId) it else it.copy(
+            if (it.id != recipeId) it else it.copy(
                 shares = it.shares + 1
             )
         }
     }
 
-    override fun delete(postId: Long) {
-        data.value = posts.filterNot { it.id == postId }
+    override fun delete(recipeId: Long) {
+        data.value = posts.filterNot { it.id == recipeId }
     }
 
     override fun save(recipe: Recipe) {
@@ -64,6 +64,10 @@ class InMemoryRecipeRepository : RecipeRepository {
     }
 
     override fun getLastId(): Long {
+        TODO("Not yet implemented")
+    }
+
+    override fun favorite(recipeId: Long) {
         TODO("Not yet implemented")
     }
 

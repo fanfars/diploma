@@ -15,6 +15,9 @@
         <action
             android:id="@+id/fromFeedFragmentToNewRecipe"
             app:destination="@id/editRecipeFragment" />
+        <action
+            android:id="@+id/fromFeedFragmentToFavoriteRecipes"
+            app:destination="@id/favoriteFragment" />
     </fragment>
     <fragment
         android:id="@+id/editFragment"
@@ -68,6 +71,17 @@
         <argument
             android:name="recipeId"
             app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="ru.netology.nerecipe.ui.FavoriteFragment"
+        tools:layout="@layout/favorite_fragment">
+        <action
+            android:id="@+id/fromFavoriteFragmentToFeed"
+            app:destination="@id/feedFragment" />
+        <action
+            android:id="@+id/fromFavoriteFragmentToRecipeFragment"
+            app:destination="@id/recipeFragment" />
     </fragment>
 
 </navigation>
