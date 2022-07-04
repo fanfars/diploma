@@ -26,5 +26,21 @@
     <string name="step">Step</string>
     <string name="recipe_title">Манты</string>
     <string name="recipe_description">Манты</string>
-    <string name="stepAfterDescription">Шаги</string>
+    <string name="stepAfterDescription">Шаг после</string>
+    <string name="add_recipe">Добавить</string>
+    <string name="steps_button">Шаги</string>
+    <string name="stepBeforeDescription">Шаг до</string>
+    <string name="European">Европейская</string>
+    <string name="Asian">Азиатская</string>
+    <string name="PanAsian">Пан-азиатская</string>
+    <string name="Eastern">Западная</string>
+    <string name="American">Американская</string>
+    <string name="Russian">Русская</string>
+    <string name="Mediterranean">Средиземноморская</string>
+    <string name="spiner_name">Категория</string>
+    <string name="stepsDescriptionText">Описание шагов</string>
+    <string name="home">Домой</string>
+    <string name="favorites">Избранное</string>
+    <string name="filter">Фильтер</string>
+    <string name="apply_filters">Применить</string>
 </resources>

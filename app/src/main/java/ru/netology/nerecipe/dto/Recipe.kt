@@ -14,7 +14,11 @@ data class Recipe(
     val cookingTime: Int = 0,
     val steps: List<CookingStep>,
     var isFavorite: Boolean = false
-)
+) {
+    companion object {
+        enum class Categories { European, Asian, PanAsian, Eastern, American, Russian, Mediterranean }
+    }
+}
 
 
 @Serializable
@@ -24,3 +28,4 @@ data class CookingStep(
     val cover: String? = null,
     var stepNumber: Int
 )
+

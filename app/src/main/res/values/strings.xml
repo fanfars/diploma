@@ -2,7 +2,6 @@
     <string name="app_name">NeRecipe</string>
     <string name="nerecipe">NeRecipe</string>
     <string name="avatar_description">Author avatar</string>
-    <string name="id">1</string>
     <string name="author">Гордон Рамзи</string>
     <string name="category">Russian</string>
     <string name="demo">Привет, это новая Нетология! Когда-то Нетология начиналась с интенсивов по онлайн-маркетингу.</string>
@@ -37,10 +36,11 @@
     <string name="Russian">Russian</string>
     <string name="Mediterranean">Mediterranean</string>
     <string name="spiner_name">Category</string>
-    <string name="stepsDescriptionText">Описание шагов</string>
+    <string name="stepsDescriptionText">Steps description</string>
     <string name="home">Home</string>
     <string name="favorites">Favorites</string>
     <string name="filter">Filter</string>
+    <string name="apply_filters">Apply</string>
     <string-array name="category_array">
         <item>European</item>
         <item>Asian</item>

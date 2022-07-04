@@ -64,13 +64,6 @@ class EditRecipeFragment : Fragment() {
         binding.saveRecipeButton.setOnClickListener {
             onOkButtonClicked(binding)
         }
-//        binding.undoButton.setOnClickListener {
-//            val text = args.initialContent
-//            val resultBundle = Bundle(1)
-//            resultBundle.putString(RESULT_KEY, text.toString())
-//            setFragmentResult(REQUEST_KEY, resultBundle)
-//            findNavController().popBackStack()
-//        }
     }.root
 
     private fun onOkButtonClicked(binding: EditRecipeFragmentBinding) {
@@ -89,6 +82,7 @@ class EditRecipeFragment : Fragment() {
         )
         if (!emptyFieldWarning(newRecipe)) return
         viewModel.onSaveButtonClicked(newRecipe)
+        editRecipeViewModel.data.value = null
         val direction = EditRecipeFragmentDirections.fromNewToFeedFragment()
         findNavController().navigate(direction)
     }

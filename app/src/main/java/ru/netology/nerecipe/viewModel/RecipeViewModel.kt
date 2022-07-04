@@ -25,6 +25,7 @@ class RecipeViewModel(
     val shareRecipeContent = SingleLiveEvent<String>()
     val videoPlay = SingleLiveEvent<String>()
     val navigateToEditRecipeFragment = SingleLiveEvent<Long>()
+    val navigateToFilterFragment = SingleLiveEvent<Unit>()
     val navigateToRecipeScreen = SingleLiveEvent<Long>()
     val navigateToRecipeSteps = SingleLiveEvent<Long>()
     private val navigateToFeedFragment = SingleLiveEvent<Unit>()
@@ -68,6 +69,10 @@ class RecipeViewModel(
 
     override fun onFavoriteClicked() {
         navigateToFavoriteFragment.call()
+    }
+
+    override fun onFilterClicked() {
+        navigateToFilterFragment.call()
     }
 
     fun onStepsButtonClicked(recipe: Recipe) {

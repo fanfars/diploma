@@ -20,9 +20,9 @@ import ru.netology.nerecipe.viewModel.RecipeViewModel
 
 class FavoriteFragment : Fragment() {
 
-    private val filterRecipeViewModel by viewModels<FilterRecipeViewModel>()
+    private val filterRecipeViewModel by activityViewModels<FilterRecipeViewModel>()
     private val editRecipeViewModel by activityViewModels<EditRecipeViewModel>()
-    private val viewModel by viewModels<RecipeViewModel>()
+    private val viewModel by activityViewModels<RecipeViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -38,16 +38,7 @@ class FavoriteFragment : Fragment() {
             startActivity(shareIntent)
         }
 
-        viewModel.navigateToRecipeScreen.observe(viewLifecycleOwner) { initialRecipeId ->
-            val direction =
-                FavoriteFragmentDirections.fromFavoriteFragmentToRecipeFragment(initialRecipeId)
-            findNavController().navigate(direction)
-        }
 
-        filterRecipeViewModel.navigateToFeedFragment.observe(viewLifecycleOwner) {
-            val direction = FavoriteFragmentDirections.fromFavoriteFragmentToFeed()
-            findNavController().navigate(direction)
-        }
     }
 
     override fun onCreateView(
@@ -65,6 +56,16 @@ class FavoriteFragment : Fragment() {
         }
 
 
+        viewModel.navigateToRecipeScreen.observe(viewLifecycleOwner) { initialRecipeId ->
+            val direction =
+                FavoriteFragmentDirections.fromFavoriteFragmentToRecipeFragment(initialRecipeId)
+            findNavController().navigate(direction)
+        }
+
+        filterRecipeViewModel.navigateToFeedFragment.observe(viewLifecycleOwner) {
+            val direction = FavoriteFragmentDirections.fromFavoriteFragmentToFeed()
+            findNavController().navigate(direction)
+        }
 
 
         val simpleCallback = object :

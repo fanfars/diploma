@@ -20,18 +20,20 @@ class EditRecipeViewModel(
     val navigateToNewRecipeFragment = SingleLiveEvent<Long>()
     private val navigateToFeedFragment = SingleLiveEvent<Unit>()
     val recipeToDesign = MutableLiveData<Recipe?>(null)
+    val emptyRecipe = Recipe(
+        id = RecipeRepository.NEW_POST_ID,
+        title = "",
+        author = "",
+        description = "",
+        category = "",
+        steps = listOf(
+            CookingStep(stepDescription = "", stepNumber = 1, stepTime = 0)
+        )
+    )
+
 
     fun onAddButtonClicked() {
-        val recipe = Recipe(
-            id = RecipeRepository.NEW_POST_ID,
-            title = "",
-            author = "",
-            description = "",
-            category = "",
-            steps = listOf(
-                CookingStep(stepDescription = "", stepNumber = 1, stepTime = 0)
-            )
-        )
+        val recipe = emptyRecipe
         repository.save(recipe)
         navigateToNewRecipeFragment.value = RecipeRepository.NEW_POST_ID
 

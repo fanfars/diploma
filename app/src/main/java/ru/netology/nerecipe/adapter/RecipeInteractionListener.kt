@@ -15,6 +15,5 @@ interface RecipeInteractionListener {
     fun recipeDown(recipeID: Long)
     fun recipeUp(recipeID: Long)
     fun onFavoriteClicked()
-
-
-}
+    fun onFilterClicked()
+    }

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.FilterFragment">
+
+
+    <CheckBox
+        android:id="@+id/checkBoxEuropean"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:checked="true"
+        android:text="@string/European"
+        app:layout_constraintEnd_toEndOf="@id/applyFilterBtn"
+        app:layout_constraintStart_toStartOf="@id/applyFilterBtn"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <CheckBox
+        android:id="@+id/checkBoxAsian"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:clickable="true"
+        android:text="@string/Asian"
+        app:layout_constraintStart_toStartOf="@+id/checkBoxEuropean"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxEuropean" />
+
+    <CheckBox
+        android:id="@+id/checkBoxPanAsian"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="@string/PanAsian"
+        app:layout_constraintStart_toStartOf="@+id/checkBoxAsian"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxAsian" />
+
+    <CheckBox
+        android:id="@+id/checkBoxEastern"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="@string/Eastern"
+        app:layout_constraintStart_toStartOf="@+id/checkBoxPanAsian"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxPanAsian" />
+
+    <CheckBox
+        android:id="@+id/checkBoxAmerican"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="@string/American"
+        app:layout_constraintStart_toStartOf="@+id/checkBoxEastern"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxEastern" />
+
+    <CheckBox
+        android:id="@+id/checkBoxRussian"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="@string/Russian"
+        app:layout_constraintStart_toStartOf="@+id/checkBoxAmerican"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxAmerican" />
+
+    <CheckBox
+        android:id="@+id/checkBoxMediterranean"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="@string/Mediterranean"
+        app:layout_constraintStart_toStartOf="@+id/checkBoxRussian"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxRussian" />
+
+    <Button
+        android:id="@+id/applyFilterBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="21dp"
+        android:clickable="true"
+        android:text="@string/apply_filters"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxMediterranean" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

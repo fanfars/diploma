@@ -50,6 +50,11 @@ class FeedFragment : Fragment() {
             findNavController().navigate(direction)
         }
 
+        viewModel.navigateToFilterFragment.observe(this) {
+            val direction = FeedFragmentDirections.fromFeedFragmentToFilter()
+            findNavController().navigate(direction)
+        }
+
         viewModel.navigateToFavoriteFragment.observe(this) {
             val direction = FeedFragmentDirections.fromFeedFragmentToFavoriteRecipes()
             findNavController().navigate(direction)
@@ -137,13 +142,14 @@ class FeedFragment : Fragment() {
         binding.bottomToolbar.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.favorites -> {
-                    filterRecipeViewModel.favoriteFilter
+                    filterRecipeViewModel.favoriteFilter.value = true
+                    viewModel.onFavoriteClicked()
                     true
                 }
-//                R.id.filter -> {
-//                    viewModel.filterFragment.call()
-//                    true
-//                }
+                R.id.filter -> {
+                    viewModel.onFilterClicked()
+                    true
+                }
                 R.id.add -> {
                     editRecipeViewModel.onAddButtonClicked()
                     true
