@@ -2,10 +2,10 @@
     <string name="app_name">NeRecipe</string>
     <string name="nerecipe">NeRecipe</string>
     <string name="avatar_description">Author avatar</string>
-    <string name="author">Гордон Рамзи</string>
+    <string name="author">Author</string>
     <string name="category">Russian</string>
     <string name="demo">Привет, это новая Нетология! Когда-то Нетология начиналась с интенсивов по онлайн-маркетингу.</string>
-    <string name="recipe_step">Защипнуть края теста: сначала соединить противоположные стороны, защипнуть их. Затем сформировать \"ушки\" и соединить их попарно. В отличие от пельменей манты не обязательно защипывать \"наглухо\", ведь вариться они будут на пару.</string>
+    <string name="recipe_step">Step description</string>
     <string name="likesCount">9999</string>
     <string name="sharesCount">999</string>
     <string name="viewsCount">99</string>
@@ -22,9 +22,9 @@
     <string name="video_cover">Video cover</string>
     <string name="chooser_play_video">Play video</string>
     <string name="post_avatar">Post avatar</string>
-    <string name="recipe_description">Манты – традиционное азиатское горячее мясное блюдо. Тесто с мясной начинкой, приготовленное на пару, это и есть манты. Очень важен правильный рецепт теста для мантов, или теста на манты</string>
+    <string name="recipe_description">Recipe description</string>
     <string name="step">Step</string>
-    <string name="recipe_title">Манты Манты Манты Манты</string>
+    <string name="recipe_title">Title</string>
     <string name="stepAfterDescription">Step after</string>
     <string name="steps_button">Steps</string>
     <string name="stepBeforeDescription">Step before</string>
@@ -35,10 +35,11 @@
     <string name="American">American</string>
     <string name="Russian">Russian</string>
     <string name="Mediterranean">Mediterranean</string>
-    <string name="spiner_name">Category</string>
+    <string name="spinner_name">Category</string>
     <string name="stepsDescriptionText">Steps description</string>
     <string name="home">Home</string>
     <string name="favorites">Favorites</string>
+    <string name="search">Search</string>
     <string name="filter">Filter</string>
     <string name="apply_filters">Apply</string>
     <string-array name="category_array">
@@ -50,4 +51,6 @@
         <item>Russian</item>
         <item>Mediterranean</item>
     </string-array>
+    <string name="id">Id</string>
+    <string name="step_time">Step time</string>
 </resources>

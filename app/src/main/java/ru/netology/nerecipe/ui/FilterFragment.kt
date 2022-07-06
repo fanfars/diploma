@@ -8,10 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import ru.netology.nerecipe.databinding.FilterFragmentBinding
-import ru.netology.nerecipe.viewModel.FilterRecipeViewModel
+import ru.netology.nerecipe.viewModel.RecipeViewModel
+import ru.netology.nerecipe.viewModel.RecipeViewModel.Companion.toFilterStates
 
 class FilterFragment : Fragment() {
-    private val filterRecipeViewModel by activityViewModels<FilterRecipeViewModel>()
+    private val viewModel by activityViewModels<RecipeViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,52 +28,26 @@ class FilterFragment : Fragment() {
 
 
     private fun onApplyBtnClicked(binding: FilterFragmentBinding) {
-
-        if (!binding.checkBoxEuropean.isChecked) {
-            filterRecipeViewModel.filterState.europeanIsActive = true
-        }
-        if (!binding.checkBoxAsian.isChecked) {
-            filterRecipeViewModel.filterState.asianIsActive = true
-
-        }
-        if (!binding.checkBoxPanAsian.isChecked) {
-            filterRecipeViewModel.filterState.panAsianIsActive = true
-
-        }
-        if (!binding.checkBoxEastern.isChecked) {
-            filterRecipeViewModel.filterState.easternIsActive = true
-        }
-        if (!binding.checkBoxAmerican.isChecked) {
-            filterRecipeViewModel.filterState.americanIsActive = true
-        }
-        if (!binding.checkBoxRussian.isChecked) {
-            filterRecipeViewModel.filterState.russianIsActive = true
-        }
-        if (!binding.checkBoxMediterranean.isChecked) {
-            filterRecipeViewModel.filterState.mediterraneanIsActive = true
-        }
-        if (filterRecipeViewModel.toFilterStates(filterRecipeViewModel.filterState).size == 0) {
-            Toast.makeText(activity, "All filters can't be disabled", Toast.LENGTH_LONG).show()
-            return
-        } else
-            saveFilterState(binding)
-        findNavController().popBackStack()
+        if (!saveFilterState(binding)) return
+        viewModel.onFilterApply()
+        val direction = FilterFragmentDirections.fromFilterFragmentToFeed()
+        findNavController().navigate(direction)
     }
 
     private fun render(binding: FilterFragmentBinding) {
 
-        binding.checkBoxEuropean.isChecked = filterRecipeViewModel.filterState.europeanIsActive
-        binding.checkBoxAsian.isChecked = filterRecipeViewModel.filterState.asianIsActive
-        binding.checkBoxPanAsian.isChecked = filterRecipeViewModel.filterState.panAsianIsActive
-        binding.checkBoxEastern.isChecked = filterRecipeViewModel.filterState.easternIsActive
-        binding.checkBoxAmerican.isChecked = filterRecipeViewModel.filterState.americanIsActive
-        binding.checkBoxRussian.isChecked = filterRecipeViewModel.filterState.russianIsActive
+        binding.checkBoxEuropean.isChecked = viewModel.filterState.europeanIsActive
+        binding.checkBoxAsian.isChecked = viewModel.filterState.asianIsActive
+        binding.checkBoxPanAsian.isChecked = viewModel.filterState.panAsianIsActive
+        binding.checkBoxEastern.isChecked = viewModel.filterState.easternIsActive
+        binding.checkBoxAmerican.isChecked = viewModel.filterState.americanIsActive
+        binding.checkBoxRussian.isChecked = viewModel.filterState.russianIsActive
         binding.checkBoxMediterranean.isChecked =
-            filterRecipeViewModel.filterState.mediterraneanIsActive
+            viewModel.filterState.mediterraneanIsActive
     }
 
-    private fun saveFilterState(binding: FilterFragmentBinding) {
-        with(filterRecipeViewModel) {
+    private fun saveFilterState(binding: FilterFragmentBinding): Boolean {
+        with(viewModel) {
             filterState.europeanIsActive = binding.checkBoxEuropean.isChecked
             filterState.asianIsActive = binding.checkBoxAsian.isChecked
             filterState.panAsianIsActive = binding.checkBoxPanAsian.isChecked
@@ -80,6 +55,14 @@ class FilterFragment : Fragment() {
             filterState.americanIsActive = binding.checkBoxAmerican.isChecked
             filterState.russianIsActive = binding.checkBoxRussian.isChecked
             filterState.mediterraneanIsActive = binding.checkBoxMediterranean.isChecked
+            return if (toFilterStates(filterState).size == 0) {
+                Toast.makeText(activity, "All filters can't be disabled", Toast.LENGTH_LONG).show()
+                false
+            } else {
+                viewModel.filterByCategoryLD.value = toFilterStates(filterState)
+                true
+            }
+
         }
     }
 }

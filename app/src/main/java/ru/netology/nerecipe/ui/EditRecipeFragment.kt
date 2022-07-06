@@ -38,7 +38,7 @@ class EditRecipeFragment : Fragment() {
             editRecipeViewModel.data.value!!.first { recipe -> recipe.id == args.recipeId }
         }
         binding.render(recipe)
-        val spinner = binding.category
+        val spinner = binding.categorySpinner
         ArrayAdapter.createFromResource(
             requireContext(),
             R.array.category_array,
@@ -70,7 +70,10 @@ class EditRecipeFragment : Fragment() {
         val stepTime = binding.stepTime.getText().toString()
         val step = CookingStep(
             stepDescription = binding.stepDescription.getText().toString(),
-            stepTime = stepTime.toInt(),
+            stepTime = if (stepTime.isNotBlank()) stepTime.toInt() else {
+                Toast.makeText(activity, "Please, input step time", Toast.LENGTH_LONG).show()
+                return
+            },
             stepNumber = recipe.steps[0].stepNumber
         )
         val newRecipe = recipe.copy(
@@ -118,8 +121,22 @@ class EditRecipeFragment : Fragment() {
     }
 
     private fun EditRecipeFragmentBinding.render(recipe: Recipe) {
-        author.setText(recipe.author)
         title.setText(recipe.title)
-
+        author.setText(recipe.author)
+        description.setText(recipe.description)
+        stepTime.setText(recipe.steps[0].stepTime.toString())
+        stepDescription.setText(recipe.steps[0].stepDescription)
+        categorySpinner.setSelection(
+            when (recipe.category) {
+                Recipe.Companion.Categories.European.toString() -> 1
+                Recipe.Companion.Categories.Asian.toString() -> 2
+                Recipe.Companion.Categories.PanAsian.toString() -> 3
+                Recipe.Companion.Categories.Eastern.toString() -> 4
+                Recipe.Companion.Categories.American.toString() -> 5
+                Recipe.Companion.Categories.Russian.toString() -> 6
+                Recipe.Companion.Categories.Mediterranean.toString() -> 7
+                else -> 1
+            }
+        )
     }
 }

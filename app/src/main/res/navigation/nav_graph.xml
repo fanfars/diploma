@@ -13,33 +13,20 @@
             android:id="@+id/toPostFragment"
             app:destination="@id/recipeFragment" />
         <action
+            android:id="@+id/toFeedFragment"
+            app:destination="@id/feedFragment" />
+        <action
             android:id="@+id/fromFeedFragmentToNewRecipe"
             app:destination="@id/editRecipeFragment" />
         <action
             android:id="@+id/fromFeedFragmentToFilter"
             app:destination="@id/recipeFilterFragment" />
-        <action
-            android:id="@+id/fromFeedFragmentToFavoriteRecipes"
-            app:destination="@id/favoriteFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/editFragment"
-        android:name="ru.netology.nerecipe.ui.EditFragment"
-        tools:layout="@layout/edit_fragment">
 
-        <argument
-            android:name="initialContent"
-            app:argType="string"
-            app:nullable="true" />
-
-    </fragment>
     <fragment
         android:id="@+id/recipeFragment"
         android:name="ru.netology.nerecipe.ui.RecipeFragment"
         tools:layout="@layout/full_recipe_fragment">
-        <action
-            android:id="@+id/toEditFragment"
-            app:destination="@id/editFragment" />
         <action
             android:id="@+id/toEditRecipeFragment"
             app:destination="@id/editRecipeFragment" />
@@ -76,19 +63,11 @@
             app:argType="long" />
     </fragment>
     <fragment
-        android:id="@+id/favoriteFragment"
-        android:name="ru.netology.nerecipe.ui.FavoriteFragment"
-        tools:layout="@layout/favorite_fragment">
-        <action
-            android:id="@+id/fromFavoriteFragmentToFeed"
-            app:destination="@id/feedFragment" />
-        <action
-            android:id="@+id/fromFavoriteFragmentToRecipeFragment"
-            app:destination="@id/recipeFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/recipeFilterFragment"
         android:name="ru.netology.nerecipe.ui.FilterFragment"
-        tools:layout="@layout/filter_fragment" />
-
+        tools:layout="@layout/filter_fragment">
+        <action
+            android:id="@+id/fromFilterFragmentToFeed"
+            app:destination="@id/feedFragment" />
+    </fragment>
 </navigation>

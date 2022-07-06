@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/Home"
+        android:id="@+id/home"
         android:drawable="@color/black"
         android:icon="@drawable/ic_home_24"
         android:title="@string/home"
@@ -14,6 +14,14 @@
         android:icon="@drawable/ic_baseline_favorite_border_24dp"
         android:title="@string/favorites"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/search"
+        android:drawable="@color/black"
+        android:icon="@drawable/ic_search_24"
+        android:title="@string/search"
+        app:showAsAction="never" />
+
     <item
         android:id="@+id/filter"
         android:drawable="@color/black"

@@ -3,7 +3,7 @@
     <string name="nerecipe">НМедиа!</string>
     <string name="app_name">NeRecipe</string>
     <string name="avatar_description">Аватар автора</string>
-    <string name="id">1</string>
+    <string name="id">Id</string>
     <string name="author">Гордон Рамзи</string>
     <string name="category">21 мая в 18:36</string>
     <string name="demo">Привет, это новая Нетология! Когда-то Нетология начиналась с интенсивов по онлайн-маркетингу.</string>
@@ -37,10 +37,11 @@
     <string name="American">Американская</string>
     <string name="Russian">Русская</string>
     <string name="Mediterranean">Средиземноморская</string>
-    <string name="spiner_name">Категория</string>
+    <string name="spinner_name">Категория</string>
     <string name="stepsDescriptionText">Описание шагов</string>
     <string name="home">Домой</string>
     <string name="favorites">Избранное</string>
     <string name="filter">Фильтер</string>
     <string name="apply_filters">Применить</string>
+    <string name="search">Поиск</string>
 </resources>

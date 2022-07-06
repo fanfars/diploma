@@ -11,9 +11,9 @@ interface RecipeInteractionListener {
     fun onPostClicked(recipe: Recipe)
     fun onUndoClicked()
     fun removeRecipeById(recipeID: Long)
-    fun moveRecipe(from: Long, to: Long)
-    fun recipeDown(recipeID: Long)
-    fun recipeUp(recipeID: Long)
+    fun moveRecipe(from: Int, to: Int)
+    fun recipeDown(position: Int)
+    fun recipeUp(position: Int)
     fun onFavoriteClicked()
     fun onFilterClicked()
-    }
+}

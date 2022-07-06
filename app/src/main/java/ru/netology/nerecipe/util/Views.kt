@@ -11,5 +11,5 @@ internal fun View.hideKeyboard() {
 
 internal fun View.showKeyboard() {
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    imm.showSoftInput(this, /*flags=*/ 0)
+    imm.showSoftInput(this, /*flags=*/ InputMethodManager.SHOW_FORCED)
 }

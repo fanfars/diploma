@@ -1,12 +1,12 @@
 package ru.netology.nerecipe.dto
 
 class FilterState(
-    var europeanIsActive: Boolean = false,
-    var asianIsActive:Boolean = false,
-    var panAsianIsActive:Boolean = false,
-    var easternIsActive:Boolean = false,
-    var americanIsActive:Boolean = false,
-    var russianIsActive:Boolean = false,
-    var mediterraneanIsActive:Boolean = false
+    var europeanIsActive: Boolean = true,
+    var asianIsActive:Boolean = true,
+    var panAsianIsActive:Boolean = true,
+    var easternIsActive:Boolean = true,
+    var americanIsActive:Boolean = true,
+    var russianIsActive:Boolean = true,
+    var mediterraneanIsActive:Boolean = true
 ) {
 }

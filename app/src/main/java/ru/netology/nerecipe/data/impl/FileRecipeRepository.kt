@@ -3,10 +3,14 @@ package ru.netology.nerecipe.data.impl
 import android.app.Application
 import android.content.Context
 import androidx.core.content.edit
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import ru.netology.nerecipe.data.RecipeRepository
+import ru.netology.nerecipe.dto.FilterState
 import ru.netology.nerecipe.dto.Recipe
 import java.util.*
 import kotlin.properties.Delegates
@@ -29,7 +33,7 @@ class FileRecipeRepository(
     }
 
 
-    private var recipes
+    private var recipes: List<Recipe>
         get() = checkNotNull(data.value) { "Data value should not be null" }
         set(value) {
             application.openFileOutput(
@@ -40,7 +44,7 @@ class FileRecipeRepository(
             data.value = value
         }
 
-    override val data: MutableLiveData<List<Recipe>>
+    override var data = MutableLiveData<List<Recipe>>()
 
     init {
         val postsFile = application.filesDir.resolve(FILE_NAME)
@@ -51,6 +55,7 @@ class FileRecipeRepository(
         } else emptyList()
         data = MutableLiveData(recipes)
     }
+
 
     override fun like(recipeId: Long) {
         recipes = recipes.map {
@@ -89,27 +94,40 @@ class FileRecipeRepository(
         ) + recipes
     }
 
-    override fun moveRecipeToPosition(from: Long, to: Long) {
-        val destinationRecipe = recipes.first { it.id == to }
-        val movableRecipe = recipes.first { it.id == from }
+    override fun moveRecipeToPosition(from: Int, to: Int) {
+        val destinationRecipe = recipes[to]
+        val movableRecipe = recipes[from]
         Collections.swap(
             recipes,
             recipes.indexOf(destinationRecipe),
             recipes.indexOf(movableRecipe)
         )
-
+        recipes = data.value ?: recipes
     }
 
-    override fun countOfRecipes(): Long {
-        return recipes.size.toLong()
+    override fun countOfRecipes(): Int {
+        return recipes.size
     }
 
     override fun getLastId(): Long {
         return nextId
     }
 
-    override fun favorite(recipeId: Long) {
-        recipes = recipes.filter {it.isFavorite }
+//    override fun filterByCategory(filterState: List<String>) {
+//        data.value = recipes.filter { filterState.contains(it.category) }
+//    }
+
+    override fun filterByFavorite() {
+        data.value = recipes.filter { it.isFavorite }
+    }
+
+//    override fun filterByQuery(queryText: String) {
+//        data.value = recipes.filter { it.title.contains(queryText) }
+//    }
+
+    override fun clearFilter() {
+        data.value = recipes
+
     }
 
     private companion object {

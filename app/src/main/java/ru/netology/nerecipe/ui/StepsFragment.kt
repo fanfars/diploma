@@ -13,7 +13,7 @@ import ru.netology.nerecipe.viewModel.RecipeViewModel
 
 class StepsFragment : Fragment() {
 
-    private val args by navArgs<RecipeFragmentArgs>()
+    private val args by navArgs<StepsFragmentArgs>()
 
     private val viewModel by viewModels<RecipeViewModel>()
 
@@ -33,12 +33,9 @@ class StepsFragment : Fragment() {
             val adapter = StepAdapter(viewModel)
             binding.stepRecyclerView.adapter = adapter
 
-            viewModel.data.observe(viewLifecycleOwner) { recipe ->
-                adapter.submitList(
-                    recipe
-                        .find { it.id == args.recipeId }
-                        ?.steps
-                )
+            viewModel.data.observe(viewLifecycleOwner) { recipes ->
+                val steps = recipes.find { it.id == args.stepsRecipeId }?.steps
+                adapter.submitList(steps)
             }
 
         }.root

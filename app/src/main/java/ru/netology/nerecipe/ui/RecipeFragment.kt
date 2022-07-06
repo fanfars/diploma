@@ -31,7 +31,7 @@ class RecipeFragment : Fragment() {
     ) = FullRecipeFragmentBinding.inflate(layoutInflater, container, false)
         .also { binding ->
 
-            binding.stepsButton.setOnClickListener { viewModel.onStepsButtonClicked(singleRecipe) }
+
 
             requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
                 val direction = RecipeFragmentDirections.fromRecipeToFeedFragment()
@@ -39,17 +39,6 @@ class RecipeFragment : Fragment() {
             }
 
             viewModel.data.value?.let { recipes ->
-                singleRecipe = recipes.first { recipe -> recipe.id == args.recipeId }
-                binding.render(singleRecipe)
-            }
-
-            viewModel.data.observe(viewLifecycleOwner) { recipes ->
-                if (!recipes.any { recipe -> recipe.id == args.recipeId }) {
-                    return@observe
-                }
-                if (recipes.isNullOrEmpty()) {
-                    return@observe
-                }
                 singleRecipe = recipes.first { recipe -> recipe.id == args.recipeId }
                 binding.render(singleRecipe)
             }
@@ -68,6 +57,8 @@ class RecipeFragment : Fragment() {
                 viewModel.onLikeClicked(singleRecipe)
             }
 
+            binding.stepsButton.setOnClickListener { viewModel.onStepsButtonClicked(singleRecipe.id) }
+
             binding.shareButton.setOnClickListener { viewModel.onShareClicked(singleRecipe) }
 
             viewModel.shareRecipeContent.observe(viewLifecycleOwner) { recipeContent ->
@@ -79,16 +70,6 @@ class RecipeFragment : Fragment() {
                 val shareIntent =
                     Intent.createChooser(intent, getString(R.string.chooser_share_post))
                 startActivity(shareIntent)
-            }
-
-            viewModel.videoPlay.observe(viewLifecycleOwner) { videoLink ->
-                val intent = Intent(Intent.ACTION_VIEW).apply {
-                    val uri = Uri.parse(videoLink)
-                    data = uri
-                }
-                val openVideoIntent =
-                    Intent.createChooser(intent, getString(R.string.chooser_play_video))
-                startActivity(openVideoIntent)
             }
 
             val popupMenu by lazy {
@@ -122,6 +103,7 @@ class RecipeFragment : Fragment() {
 }
 
 private fun FullRecipeFragmentBinding.render(recipe: Recipe) {
+    title.text = recipe.title
     author.text = recipe.author
     recipeDescription.text = recipe.description
     category.text = recipe.category

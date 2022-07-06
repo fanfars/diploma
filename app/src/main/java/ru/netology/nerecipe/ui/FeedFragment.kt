@@ -1,10 +1,9 @@
 package ru.netology.nerecipe.ui
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -14,8 +13,9 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.netology.nerecipe.R
 import ru.netology.nerecipe.adapter.RecipeAdapter
 import ru.netology.nerecipe.databinding.FeedFragmentBinding
+import ru.netology.nerecipe.util.hideKeyboard
+import ru.netology.nerecipe.util.showKeyboard
 import ru.netology.nerecipe.viewModel.EditRecipeViewModel
-import ru.netology.nerecipe.viewModel.FilterRecipeViewModel
 import ru.netology.nerecipe.viewModel.RecipeViewModel
 
 
@@ -23,10 +23,11 @@ class FeedFragment : Fragment() {
 
     private val viewModel by viewModels<RecipeViewModel>()
     private val editRecipeViewModel by activityViewModels<EditRecipeViewModel>()
-    private val filterRecipeViewModel by viewModels<FilterRecipeViewModel>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 
         viewModel.shareRecipeContent.observe(this) { postContent ->
             val intent = Intent().apply {
@@ -55,21 +56,9 @@ class FeedFragment : Fragment() {
             findNavController().navigate(direction)
         }
 
-        viewModel.navigateToFavoriteFragment.observe(this) {
-            val direction = FeedFragmentDirections.fromFeedFragmentToFavoriteRecipes()
+        viewModel.navigateToFeedFragment.observe(this) {
+            val direction = FeedFragmentDirections.toFeedFragment()
             findNavController().navigate(direction)
-        }
-
-        viewModel.videoPlay.observe(this) { videoLink ->
-
-            val intent = Intent(Intent.ACTION_VIEW).apply {
-                val uri = Uri.parse(videoLink)
-                data = uri
-            }
-
-            val openVideoIntent =
-                Intent.createChooser(intent, getString(R.string.chooser_play_video))
-            startActivity(openVideoIntent)
         }
 
     }
@@ -83,13 +72,11 @@ class FeedFragment : Fragment() {
         val adapter = RecipeAdapter(viewModel)
         binding.recipeRecyclerView.adapter = adapter
 
-        viewModel.data.observe(viewLifecycleOwner) { recipes ->
+        viewModel.filtratedDataLD.observe(viewLifecycleOwner) { recipes ->
             adapter.submitList(recipes)
         }
 
-        viewModel.recipeCardMoveEvent.observe(viewLifecycleOwner) {
-
-        }
+        binding.searchBar.visibility = View.GONE
 
         val simpleCallback = object :
             ItemTouchHelper.SimpleCallback(ItemTouchHelper.ACTION_STATE_DRAG, ItemTouchHelper.END) {
@@ -111,21 +98,20 @@ class FeedFragment : Fragment() {
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-                val fromPositionId = adapter.currentList[viewHolder.adapterPosition].id
-//                val toPositionId = adapter.currentList[target.adapterPosition].id
-                val fromPosition = adapter.currentList[viewHolder.adapterPosition].id
-                val toPosition = adapter.currentList[target.adapterPosition].id
-                if (fromPosition < toPosition) {
-                    for (i in fromPosition until toPosition) {
-                        viewModel.recipeUp(fromPositionId)
+                if (viewHolder.itemViewType != target.itemViewType) return false else {
+                    val fromPosition = viewHolder.adapterPosition
+                    val toPosition = target.adapterPosition
+                    if (fromPosition < toPosition) {
+                        for (i in fromPosition until toPosition) {
+                            viewModel.recipeUp(fromPosition)
+                        }
+                    } else {
+                        for (i in fromPosition downTo toPosition + 1) {
+                            viewModel.recipeDown(fromPosition)
+                        }
                     }
-                } else {
-                    for (i in fromPosition downTo toPosition + 1) {
-                        viewModel.recipeDown(fromPositionId)
-                    }
+                    return true
                 }
-                viewModel.recipeCardMoveEvent.call()
-                return true
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
@@ -136,14 +122,53 @@ class FeedFragment : Fragment() {
                 }
             }
         }
+
+        fun setUpSearchView() {
+            binding.searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    binding.searchBar.hideKeyboard()
+                    binding.searchBar.visibility = View.GONE
+                    if (!query.isNullOrBlank()) viewModel.onQueryTextSubmit(query) else return false
+                    return true
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    if (newText.isNullOrEmpty()) {
+                        adapter.submitList(viewModel.filtratedDataLD.value)
+                        return true
+                    }
+                    var list = adapter.currentList
+                    list = list.filter { recipe ->
+                        recipe.title.lowercase().contains(newText.lowercase())
+                    }
+                    adapter.submitList(list)
+                    return true
+                }
+            })
+        }
+
         val itemTouchHelper = ItemTouchHelper(simpleCallback)
         itemTouchHelper.attachToRecyclerView(binding.recipeRecyclerView)
 
         binding.bottomToolbar.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
+                R.id.home -> {
+                    viewModel.navigateToFeedFragment.call()
+                    true
+                }
                 R.id.favorites -> {
-                    filterRecipeViewModel.favoriteFilter.value = true
                     viewModel.onFavoriteClicked()
+                    binding.searchBar.visibility = View.GONE
+                    true
+                }
+                R.id.search -> {
+                    with(binding.searchBar) {
+                        visibility = View.VISIBLE
+                        onActionViewExpanded()
+                        requestFocus()
+                        showKeyboard()
+                    }
+                    setUpSearchView()
                     true
                 }
                 R.id.filter -> {
@@ -160,4 +185,6 @@ class FeedFragment : Fragment() {
 
     }.root
 
+
 }
+

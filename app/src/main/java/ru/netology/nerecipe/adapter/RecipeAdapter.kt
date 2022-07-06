@@ -1,5 +1,6 @@
 package ru.netology.nerecipe.adapter
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -47,7 +48,7 @@ internal class RecipeAdapter(
             with(binding) {
                 title.text = recipe.title
                 author.text = recipe.author
-                category.text = recipe.category
+                categorySpinner.text = recipe.category
                 likesButton.text = recipe.id.toString()
                 shareButton.text = recipe.shares.toString()
                 cookingTimeCount.text = recipe.cookingTime.toString()
@@ -55,6 +56,8 @@ internal class RecipeAdapter(
 
             }
         }
+
+
     }
 
     private object DiffCallback : DiffUtil.ItemCallback<Recipe>() {
@@ -65,5 +68,5 @@ internal class RecipeAdapter(
             oldItem == newItem
     }
 
-
 }
+

@@ -18,7 +18,7 @@ class EditRecipeViewModel(
     val data by repository::data
     val navigateToRecipeSteps = SingleLiveEvent<Long>()
     val navigateToNewRecipeFragment = SingleLiveEvent<Long>()
-    private val navigateToFeedFragment = SingleLiveEvent<Unit>()
+//    private val navigateToFeedFragment = SingleLiveEvent<Unit>()
     val recipeToDesign = MutableLiveData<Recipe?>(null)
     val emptyRecipe = Recipe(
         id = RecipeRepository.NEW_POST_ID,
