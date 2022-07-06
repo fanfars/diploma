@@ -47,9 +47,7 @@
         <entry key="..\:/HomeWorkAndroid/NeRecipe/app/src/main/res/layout/edit_fragment.xml" value="0.36666666666666664" />
         <entry key="..\:/HomeWorkAndroid/NeRecipe/app/src/main/res/layout/edit_recipe_fragment.xml" value="0.221875" />
         <entry key="..\:/HomeWorkAndroid/NeRecipe/app/src/main/res/layout/edit_step_fragment.xml" value="0.1890625" />
-        <entry key="..\:/HomeWorkAndroid/NeRecipe/app/src/main/res/layout/favorite_fragment.xml" value="0.34692028985507245" />
         <entry key="..\:/HomeWorkAndroid/NeRecipe/app/src/main/res/layout/feed_fragment.xml" value="0.1984375" />
-        <entry key="..\:/HomeWorkAndroid/NeRecipe/app/src/main/res/layout/filter_fragment.xml" value="0.20833333333333334" />
         <entry key="..\:/HomeWorkAndroid/NeRecipe/app/src/main/res/layout/full_recipe_fragment.xml" value="0.25" />
         <entry key="..\:/HomeWorkAndroid/NeRecipe/app/src/main/res/layout/intent_handler_activity.xml" value="0.1984375" />
         <entry key="..\:/HomeWorkAndroid/NeRecipe/app/src/main/res/layout/new_recipe_fragment.xml" value="0.22" />
@@ -65,13 +63,13 @@
         <entry key="..\:/HomeWorkAndroid/NeRecipe/app/src/main/res/layout/steps_recycler_view_fragment.xml" value="0.25364583333333335" />
         <entry key="..\:/HomeWorkAndroid/NeRecipe/app/src/main/res/layout/test.xml" value="0.25364583333333335" />
         <entry key="..\:/HomeWorkAndroid/NeRecipe/app/src/main/res/layout/test1.xml" value="0.3802083333333333" />
-        <entry key="..\:/HomeWorkAndroid/NeRecipe/app/src/main/res/menu/app_bar_menu.xml" value="0.25462962962962965" />
-        <entry key="..\:/HomeWorkAndroid/NeRecipe/app/src/main/res/menu/bottom_nav_menu.xml" value="0.27291666666666664" />
         <entry key="..\:/HomeWorkAndroid/NeRecipe/app/src/main/res/menu/options_post.xml" value="0.3802083333333333" />
         <entry key="..\:/HomeWorkAndroid/NeRecipe/app/src/main/res/menu/recipe_category.xml" value="0.25" />
         <entry key="..\:/HomeWorkAndroid/NeRecipe/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.131" />
+        <entry key="..\:/HomeWorkAndroid/diploma/app/src/main/res/drawable/empty_state.xml" value="0.15" />
         <entry key="..\:/HomeWorkAndroid/diploma/app/src/main/res/layout/favorite_fragment.xml" value="0.171875" />
-        <entry key="..\:/HomeWorkAndroid/diploma/app/src/main/res/layout/feed_fragment.xml" value="0.196875" />
+        <entry key="..\:/HomeWorkAndroid/diploma/app/src/main/res/layout/feed_fragment.xml" value="0.17" />
+        <entry key="..\:/HomeWorkAndroid/diploma/app/src/main/res/layout/full_recipe_fragment.xml" value="0.15572916666666667" />
         <entry key="..\:/HomeWorkAndroid/diploma/app/src/main/res/menu/bottom_nav_menu.xml" value="0.22" />
         <entry key="..\:/HomeWorkAndroid/diploma/app/src/main/res/menu/options_recipe.xml" value="0.196875" />
         <entry key="..\:/HomeWorkAndroid/diploma/app/src/main/res/menu/recipe_category.xml" value="0.196875" />

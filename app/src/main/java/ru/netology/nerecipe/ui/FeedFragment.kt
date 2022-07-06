@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.netology.nerecipe.R
 import ru.netology.nerecipe.adapter.RecipeAdapter
 import ru.netology.nerecipe.databinding.FeedFragmentBinding
+import ru.netology.nerecipe.dto.FilterState
 import ru.netology.nerecipe.util.hideKeyboard
 import ru.netology.nerecipe.util.showKeyboard
 import ru.netology.nerecipe.viewModel.EditRecipeViewModel
@@ -73,7 +74,10 @@ class FeedFragment : Fragment() {
         binding.recipeRecyclerView.adapter = adapter
 
         viewModel.filtratedDataLD.observe(viewLifecycleOwner) { recipes ->
+            if (recipes.isEmpty()) binding.emptyPic.visibility = View.VISIBLE else
+                binding.emptyPic.visibility = View.GONE
             adapter.submitList(recipes)
+
         }
 
         binding.searchBar.visibility = View.GONE
@@ -98,7 +102,7 @@ class FeedFragment : Fragment() {
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-                if (viewHolder.itemViewType != target.itemViewType) return false else {
+                return if (viewHolder.itemViewType != target.itemViewType) false else {
                     val fromPosition = viewHolder.adapterPosition
                     val toPosition = target.adapterPosition
                     if (fromPosition < toPosition) {
@@ -110,7 +114,8 @@ class FeedFragment : Fragment() {
                             viewModel.recipeDown(fromPosition)
                         }
                     }
-                    return true
+                    adapter.notifyItemMoved(fromPosition, toPosition)
+                    true
                 }
             }
 
@@ -127,9 +132,10 @@ class FeedFragment : Fragment() {
             binding.searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     binding.searchBar.hideKeyboard()
-                    binding.searchBar.visibility = View.GONE
-                    if (!query.isNullOrBlank()) viewModel.onQueryTextSubmit(query) else return false
+                    if (!query.isNullOrBlank()) viewModel.onSaveQuery(query) else return false
+                    viewModel.navigateToFeedFragment.call()
                     return true
+
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
@@ -149,11 +155,14 @@ class FeedFragment : Fragment() {
 
         val itemTouchHelper = ItemTouchHelper(simpleCallback)
         itemTouchHelper.attachToRecyclerView(binding.recipeRecyclerView)
-
         binding.bottomToolbar.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.home -> {
-                    viewModel.navigateToFeedFragment.call()
+                    with(viewModel) {
+                        navigateToFeedFragment.call()
+                        onSaveQuery("")
+                        onSaveCategories(FilterState())
+                    }
                     true
                 }
                 R.id.favorites -> {

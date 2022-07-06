@@ -14,8 +14,8 @@
         android:layout_marginTop="?attr/actionBarSize"
         android:checked="true"
         android:text="@string/European"
-        app:layout_constraintEnd_toEndOf="@id/applyFilterBtn"
-        app:layout_constraintStart_toStartOf="@id/applyFilterBtn"
+        app:layout_constraintEnd_toEndOf="@id/apply_button"
+        app:layout_constraintStart_toStartOf="@id/apply_button"
         app:layout_constraintTop_toTopOf="parent" />
 
     <CheckBox
@@ -74,7 +74,7 @@
         app:layout_constraintTop_toBottomOf="@+id/checkBoxRussian" />
 
     <Button
-        android:id="@+id/applyFilterBtn"
+        android:id="@+id/apply_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="21dp"

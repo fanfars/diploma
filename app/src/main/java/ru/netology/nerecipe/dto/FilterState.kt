@@ -1,6 +1,9 @@
 package ru.netology.nerecipe.dto
 
-class FilterState(
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class FilterState(
     var europeanIsActive: Boolean = true,
     var asianIsActive:Boolean = true,
     var panAsianIsActive:Boolean = true,

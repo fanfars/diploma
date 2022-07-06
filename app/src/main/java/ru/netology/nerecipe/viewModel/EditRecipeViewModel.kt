@@ -15,7 +15,7 @@ class EditRecipeViewModel(
 
     private val repository = SharedPrefsRecipeRepository(application)
 
-    val data by repository::data
+    val data by repository::recipesData
     val navigateToRecipeSteps = SingleLiveEvent<Long>()
     val navigateToNewRecipeFragment = SingleLiveEvent<Long>()
 //    private val navigateToFeedFragment = SingleLiveEvent<Unit>()
