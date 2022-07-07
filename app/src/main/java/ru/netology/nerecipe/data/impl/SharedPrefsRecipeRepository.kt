@@ -9,8 +9,10 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import ru.netology.nerecipe.data.FilterRepository
 import ru.netology.nerecipe.data.RecipeRepository
+import ru.netology.nerecipe.dto.CookingStep
 import ru.netology.nerecipe.dto.FilterState
 import ru.netology.nerecipe.dto.Recipe
+import java.util.*
 
 class SharedPrefsRecipeRepository(
     application: Application
@@ -40,7 +42,7 @@ class SharedPrefsRecipeRepository(
             categoryData.value = value
         }
 
-    private var query
+    private var queries
         get() = checkNotNull(queryData.value) { "Data value should not be null" }
         set(value) {
             prefs.edit {
@@ -50,7 +52,7 @@ class SharedPrefsRecipeRepository(
             queryData.value = value
         }
 
-    override val recipesData: MutableLiveData<List<Recipe>>
+    override val recipesData: MutableLiveData<Recipe>
 
     override val categoryData: MutableLiveData<FilterState>
 
@@ -58,9 +60,18 @@ class SharedPrefsRecipeRepository(
 
     init {
         val serializedRecipes = prefs.getString(RECIPE_PREFS_KEY, null)
-        val recipes: List<Recipe> = if (serializedRecipes != null) {
+        val recipes: Recipe = if (serializedRecipes != null) {
             Json.decodeFromString(serializedRecipes)
-        } else emptyList()
+        } else Recipe(
+            id = RecipeRepository.NEW_POST_ID,
+            author = "",
+            title = "",
+            description = "",
+            category = "",
+            cookingTime = 0,
+            isFavorite = false,
+            steps = emptyList()
+        )
         recipesData = MutableLiveData(recipes)
 
         val serializedCategory = prefs.getString(CATEGORIES_PREFS_KEY, null)
@@ -77,26 +88,33 @@ class SharedPrefsRecipeRepository(
     }
 
     override fun save(recipe: Recipe) {
-        if (recipe.id == RecipeRepository.NEW_POST_ID) insert(recipe) else update(recipe)
-    }
-
-
-    override fun update(recipe: Recipe) {
-        recipes = recipes.map {
-            if (it.id == recipe.id) recipe else it
-        }
+        if (recipe.id == RecipeRepository.NEW_POST_ID) insert(recipe)
     }
 
     override fun insert(recipe: Recipe) {
-        recipes = emptyList<Recipe>() + recipe
+        recipes = recipe
     }
 
     override fun saveCategories(filterState: FilterState) {
         categories = filterState
     }
 
-    override fun saveQuery(inputQuery: String) {
-        query = inputQuery
+    override fun saveQuery(query: String) {
+        queries = query
+    }
+
+    override fun saveStepAfter(step: CookingStep, position: Int) {
+        var steps: List<CookingStep> = recipes.steps
+        steps = listOf(step.copy()) + steps
+        recipes = recipes.copy(steps = steps)
+        recipesData.value = recipes
+    }
+
+    override fun saveStepBefore(step: CookingStep, position: Int) {
+        var steps: List<CookingStep> = recipes.steps
+        steps = steps + listOf(step.copy())
+        recipes = recipes.copy(steps = steps)
+        recipesData.value = recipes
     }
 
     private companion object {
@@ -105,5 +123,4 @@ class SharedPrefsRecipeRepository(
         const val QUERY_PREFS_KEY = "query"
 
     }
-
 }

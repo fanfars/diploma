@@ -26,6 +26,7 @@
     <string name="step">Step</string>
     <string name="recipe_title">Title</string>
     <string name="stepAfterDescription">Step after</string>
+    <string name="stepEdit">Steps edit</string>
     <string name="steps_button">Steps</string>
     <string name="stepBeforeDescription">Step before</string>
     <string name="European">European</string>
@@ -53,4 +54,6 @@
     </string-array>
     <string name="id">Id</string>
     <string name="step_time">Step time</string>
+    <string name="save_recipe">Save recipe</string>
+    <string name="current_step">Current step</string>
 </resources>

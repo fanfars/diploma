@@ -31,8 +31,6 @@ class RecipeFragment : Fragment() {
     ) = FullRecipeFragmentBinding.inflate(layoutInflater, container, false)
         .also { binding ->
 
-
-
             requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
                 val direction = RecipeFragmentDirections.fromRecipeToFeedFragment()
                 findNavController().navigate(direction)
@@ -108,7 +106,6 @@ private fun FullRecipeFragmentBinding.render(recipe: Recipe) {
     recipeDescription.text = recipe.description
     category.text = recipe.category
     likesButton.text = recipe.id.toString()
-    shareButton.text = recipe.shares.toString()
     cookingTimeCount.text = recipe.cookingTime.toString()
     likesButton.isChecked = recipe.isFavorite
 

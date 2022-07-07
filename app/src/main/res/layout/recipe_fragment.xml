@@ -107,4 +107,6 @@
         app:barrierDirection="bottom"
         app:constraint_referenced_ids="avatar,likesButton,shareButton,cookingTimeCount" />
 
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

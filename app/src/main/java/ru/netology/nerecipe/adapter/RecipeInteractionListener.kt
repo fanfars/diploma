@@ -16,6 +16,7 @@ interface RecipeInteractionListener {
     fun recipeUp(position: Int)
     fun onFavoriteClicked()
     fun onFilterClicked()
+    fun saveRecipeWithSteps(recipe: Recipe)
 
 
 }

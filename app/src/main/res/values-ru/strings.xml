@@ -44,4 +44,6 @@
     <string name="filter">Фильтер</string>
     <string name="apply_filters">Применить</string>
     <string name="search">Поиск</string>
+    <string name="step_time">Время шага</string>
+    <string name="stepEdit">Редактирование шага</string>
 </resources>

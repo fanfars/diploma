@@ -10,14 +10,14 @@ import ru.netology.nerecipe.dto.CookingStep
 
 
 internal class StepAdapter(
-    private val interactionListener: StepInteractionListener
+
 ) : ListAdapter<CookingStep, StepAdapter.ViewHolder>(DiffCallback) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = StepFragmentBinding.inflate(inflater, parent, false)
-        return ViewHolder(binding, interactionListener)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -26,15 +26,11 @@ internal class StepAdapter(
 
 
     class ViewHolder(
-        private val binding: StepFragmentBinding,
-        listener: StepInteractionListener
+        private val binding: StepFragmentBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         private lateinit var step: CookingStep
 
-        init {
-            binding.stepDescription.setOnClickListener { listener.onDescriptionLongClicked(step) }
-        }
 
         fun bind(step: CookingStep) {
             this.step = step

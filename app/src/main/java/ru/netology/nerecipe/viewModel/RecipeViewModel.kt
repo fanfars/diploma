@@ -1,15 +1,14 @@
 package ru.netology.nerecipe.viewModel
 
 import android.app.Application
-import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import ru.netology.nerecipe.adapter.RecipeInteractionListener
-import ru.netology.nerecipe.adapter.StepInteractionListener
 import ru.netology.nerecipe.data.FilterRepository
 import ru.netology.nerecipe.data.RecipeRepository
 import ru.netology.nerecipe.data.impl.FileRecipeRepository
 import ru.netology.nerecipe.data.impl.SharedPrefsRecipeRepository
-import ru.netology.nerecipe.dto.CookingStep
 import ru.netology.nerecipe.dto.FilterState
 import ru.netology.nerecipe.dto.Recipe
 import ru.netology.nerecipe.util.SingleLiveEvent
@@ -17,7 +16,7 @@ import java.util.*
 
 class RecipeViewModel(
     application: Application
-) : AndroidViewModel(application), RecipeInteractionListener, StepInteractionListener {
+) : AndroidViewModel(application), RecipeInteractionListener {
 
     private val repository: RecipeRepository = FileRecipeRepository(application)
     val data by repository::data
@@ -32,10 +31,13 @@ class RecipeViewModel(
     val navigateToFeedFragment = SingleLiveEvent<Unit>()
     val navigateToRecipeSteps = SingleLiveEvent<Long>()
 
-    val shareRecipeContent = SingleLiveEvent<String>()
+    val filtratedDataLD: MediatorLiveData<List<Recipe>> = MediatorLiveData<List<Recipe>>()
     val searchQueryLD: MutableLiveData<String> = MutableLiveData()
     val filterByCategoryLD = MutableLiveData<List<String>>()
-    val filtratedDataLD: MediatorLiveData<List<Recipe>> = MediatorLiveData<List<Recipe>>()
+
+
+
+    val shareRecipeContent = SingleLiveEvent<String>()
 
     init {
         filterByCategoryLD.value =
@@ -44,7 +46,6 @@ class RecipeViewModel(
         filtratedDataLD.addSource(data) { filtratedDataLD.value = data.value }
         filtratedDataLD.addSource(searchQueryLD) { filterForData() }
         filtratedDataLD.addSource(filterByCategoryLD) { filterForData() }
-
     }
 
     fun onSaveButtonClicked(recipe: Recipe) {
@@ -59,9 +60,25 @@ class RecipeViewModel(
         }
     }
 
+    fun onSaveQuery(query: String) {
+        filterRepository.saveQuery(query)
+    }
+
+    fun onSaveCategories(filterState: FilterState) {
+        filterRepository.saveCategories(filterState)
+        filterByCategoryLD.value =
+            toFilterStates(filterRepository.categoryData.value ?: FilterState())
+    }
+
+    fun onStepsButtonClicked(recipeId: Long) {
+        navigateToRecipeSteps.value = recipeId
+    }
+
     // region  RecipeInteractionListener
 
     override fun onLikeClicked(recipe: Recipe) = repository.like(recipe.id)
+
+    override fun saveRecipeWithSteps(recipe: Recipe) = repository.save(recipe)
 
     override fun onShareClicked(recipe: Recipe) {
         shareRecipeContent.value = recipe.description
@@ -85,30 +102,7 @@ class RecipeViewModel(
         repository.filterByFavorite()
     }
 
-//    fun onFilterApply(filterState: FilterState) {
-//        filterByCategoryLD.value = toFilterStates(filterState)
-//    }
-
-    fun onSaveQuery(query: String) {
-        filterRepository.saveQuery(query)
-        //searchQueryLD.value = query
-    }
-
-    fun onSaveCategories(filterState: FilterState) {
-        filterRepository.saveCategories(filterState)
-        filterByCategoryLD.value =
-            toFilterStates(filterRepository.categoryData.value ?: FilterState())
-    }
-
-    fun onStepsButtonClicked(recipeId: Long) {
-        navigateToRecipeSteps.value = recipeId
-    }
-
     override fun onUndoClicked() {
-    }
-
-    override fun onDescriptionLongClicked(cookingStep: CookingStep) {
-        TODO("Not yet implemented")
     }
 
     override fun removeRecipeById(recipeID: Long) {
@@ -129,9 +123,9 @@ class RecipeViewModel(
         if (position == 1) return else
             repository.moveRecipeToPosition(position, position - 1)
     }
+    // endregion  RecipeInteractionListener
 
     private fun filterForData() {
-        Log.d("TAG", "start")
         val searchText =
             searchQueryLD.value?.lowercase(Locale.getDefault())?.trim { it <= ' ' } ?: ""
 
@@ -140,10 +134,8 @@ class RecipeViewModel(
                 recipe.title.lowercase(Locale.getDefault()).contains(searchText)
             } ?: throw RuntimeException("Empty data.value")
         } else {
-            Log.d("TAG", "first else")
             data.value
         }
-        Log.d("TAG", "firs if${filtratedDataLD.value?.size ?: 1111}")
 
         if (filterByCategoryLD.value?.size != Recipe.Companion.Categories.values().size) {
             filtratedDataLD.value = filtratedDataLD.value?.filter { recipe ->
@@ -151,10 +143,8 @@ class RecipeViewModel(
                     ?: throw RuntimeException("Empty filtrated data value")
             }
         }
-        Log.d("TAG", "second if${filtratedDataLD.value?.size ?: 2222}")
     }
 
-    // endregion  RecipeInteractionListener
     companion object {
 
         fun toFilterStates(filterState: FilterState): List<String> {

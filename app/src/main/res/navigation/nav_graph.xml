@@ -58,6 +58,9 @@
         <action
             android:id="@+id/fromNewToFeedFragment"
             app:destination="@id/feedFragment" />
+        <action
+            android:id="@+id/toEditStepsFragment"
+            app:destination="@id/editStepsFragment" />
         <argument
             android:name="recipeId"
             app:argType="long" />
@@ -69,5 +72,16 @@
         <action
             android:id="@+id/fromFilterFragmentToFeed"
             app:destination="@id/feedFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editStepsFragment"
+        android:name="ru.netology.nerecipe.ui.EditStepsFragment"
+        tools:layout="@layout/edit_steps_fragment">
+        <action
+            android:id="@+id/fromEditStepsToEditRecipeFragment"
+            app:destination="@id/editRecipeFragment" />
+        <argument
+            android:name="recipeId"
+            app:argType="long" />
     </fragment>
 </navigation>

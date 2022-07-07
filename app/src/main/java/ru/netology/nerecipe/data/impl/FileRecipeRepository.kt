@@ -32,7 +32,6 @@ class FileRecipeRepository(
         prefs.edit { putLong(NEXT_ID_PREFS_KEY, newValue) }
     }
 
-
     private var recipes: List<Recipe>
         get() = checkNotNull(data.value) { "Data value should not be null" }
         set(value) {
@@ -56,23 +55,15 @@ class FileRecipeRepository(
         data = MutableLiveData(recipes)
     }
 
-
     override fun like(recipeId: Long) {
         recipes = recipes.map {
             if (it.id != recipeId) it else it.copy(
                 isFavorite = !it.isFavorite,
-                likes = if (it.isFavorite) it.likes - 1 else it.likes + 1
-            )
+                )
         }
     }
 
-    override fun share(recipeId: Long) {
-        recipes = recipes.map {
-            if (it.id != recipeId) it else it.copy(
-                shares = it.shares + 1
-            )
-        }
-    }
+
 
     override fun delete(recipeId: Long) {
         recipes = recipes.filterNot { it.id == recipeId }
@@ -113,25 +104,15 @@ class FileRecipeRepository(
         return nextId
     }
 
-//    override fun filterByCategory(filterState: List<String>) {
-//        data.value = recipes.filter { filterState.contains(it.category) }
-//    }
-
     override fun filterByFavorite() {
         data.value = recipes.filter { it.isFavorite }
     }
 
-//    override fun filterByQuery(queryText: String) {
-//        data.value = recipes.filter { it.title.contains(queryText) }
-//    }
-
     override fun clearFilter() {
         data.value = recipes
-
     }
 
     private companion object {
-        const val POSTS_PREFS_KEY = "posts"
         const val NEXT_ID_PREFS_KEY = "next_id"
         const val FILE_NAME = "posts.json"
     }

@@ -1,6 +1,5 @@
 package ru.netology.nerecipe.adapter
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -14,17 +13,14 @@ internal class RecipeAdapter(
     private val interactionListener: RecipeInteractionListener
 ) : ListAdapter<Recipe, RecipeAdapter.ViewHolder>(DiffCallback) {
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = RecipeFragmentBinding.inflate(inflater, parent, false)
         return ViewHolder(binding, interactionListener)
     }
 
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
-
     }
 
     class ViewHolder(
@@ -50,14 +46,10 @@ internal class RecipeAdapter(
                 author.text = recipe.author
                 categorySpinner.text = recipe.category
                 likesButton.text = recipe.id.toString()
-                shareButton.text = recipe.shares.toString()
                 cookingTimeCount.text = recipe.cookingTime.toString()
                 likesButton.isChecked = recipe.isFavorite
-
             }
         }
-
-
     }
 
     private object DiffCallback : DiffUtil.ItemCallback<Recipe>() {
@@ -67,6 +59,6 @@ internal class RecipeAdapter(
         override fun areContentsTheSame(oldItem: Recipe, newItem: Recipe): Boolean =
             oldItem == newItem
     }
-
+    
 }
 

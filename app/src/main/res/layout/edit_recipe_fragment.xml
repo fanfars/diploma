@@ -29,8 +29,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/avatar"
         app:layout_constraintTop_toBottomOf="@id/title"
-        app:layout_constraintVertical_chainStyle="spread"
-         />
+        app:layout_constraintVertical_chainStyle="spread" />
 
     <Spinner
         android:id="@+id/categorySpinner"
@@ -63,8 +62,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/avatar"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="spread"
-        />
+        app:layout_constraintVertical_chainStyle="spread" />
 
 
     <androidx.constraintlayout.widget.Barrier
@@ -86,8 +84,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/barrierRecipeHeadContent"
-        app:layout_constraintVertical_chainStyle="spread"
-        />
+        app:layout_constraintVertical_chainStyle="spread" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrierStepHeadContent"
@@ -97,72 +94,15 @@
         app:barrierDirection="bottom"
         app:constraint_referenced_ids="description" />
 
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/stepTimePic"
-        style="@style/Widget.AppTheme.ShareAndViewsButton"
+    <Button
+        android:id="@+id/edit_steps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/min_spacing"
-        app:icon="@drawable/ic_baseline_access_time_24"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/stepDescription" />
-
-    <EditText
-        android:id="@+id/stepTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/min_spacing"
-        android:inputType="number"
-        android:hint="@string/step_time"
-        app:layout_constraintStart_toEndOf="@id/stepTimePic"
-        app:layout_constraintTop_toBottomOf="@id/stepDescription"
-        app:layout_constraintVertical_chainStyle="spread" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/stepsDescriptionText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/common_spacing"
-        android:gravity="center"
-        android:text="@string/stepsDescriptionText"
-        android:textSize="20dp"
+        android:layout_marginTop="@dimen/big_spacing"
+        android:text="@string/stepEdit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/barrierStepHeadContent" />
-
-
-    <EditText
-        android:id="@+id/stepDescription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/common_spacing"
-        android:layout_marginEnd="@dimen/common_spacing"
-        android:gravity="center"
-        android:hint="@string/recipe_step"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/stepsDescriptionText"
-        app:layout_constraintVertical_chainStyle="spread"
-         />
-
-    <Button
-        android:id="@+id/stepBeforeButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/stepBeforeDescription"
-        app:layout_constraintEnd_toStartOf="@id/stepAfterButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/stepTimePic" />
-
-    <Button
-        android:id="@+id/stepAfterButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/stepAfterDescription"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/stepBeforeButton"
-        app:layout_constraintTop_toBottomOf="@id/stepTimePic" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/saveRecipeButton"

@@ -24,8 +24,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/common_spacing"
         android:layout_marginEnd="@dimen/common_spacing"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/stepTime"
+        app:layout_constraintStart_toEndOf="@id/stepPic"
+        app:layout_constraintTop_toTopOf="@id/stepTime"
         app:layout_constraintVertical_chainStyle="spread"
         tools:text="@string/step" />
 

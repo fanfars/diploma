@@ -9,18 +9,14 @@ data class Recipe(
     val title: String,
     val description: String,
     val category: String,
-    val likes: Int = 0,
-    val shares: Int = 0,
     val steps: List<CookingStep>,
-    var cookingTime: Int = steps.sumOf { cookingStep -> cookingStep.stepTime },
+    var cookingTime: Int = 0,
     var isFavorite: Boolean = false
 ) {
-
     companion object {
         enum class Categories { European, Asian, PanAsian, Eastern, American, Russian, Mediterranean }
     }
 }
-
 
 @Serializable
 data class CookingStep(

@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import ru.netology.nerecipe.adapter.RecipeAdapter
 import ru.netology.nerecipe.adapter.StepAdapter
 import ru.netology.nerecipe.databinding.StepsRecyclerViewFragmentBinding
 import ru.netology.nerecipe.viewModel.RecipeViewModel
@@ -30,10 +31,10 @@ class StepsFragment : Fragment() {
     ) = StepsRecyclerViewFragmentBinding.inflate(layoutInflater, container, false)
         .also { binding ->
 
-            val adapter = StepAdapter(viewModel)
+            val adapter = StepAdapter()
             binding.stepRecyclerView.adapter = adapter
 
-            viewModel.data.observe(viewLifecycleOwner) { recipes ->
+            viewModel.filtratedDataLD.observe(viewLifecycleOwner) { recipes ->
                 val steps = recipes.find { it.id == args.stepsRecipeId }?.steps
                 adapter.submitList(steps)
             }
