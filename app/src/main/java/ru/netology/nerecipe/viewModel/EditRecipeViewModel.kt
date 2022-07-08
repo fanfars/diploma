@@ -12,7 +12,7 @@ import ru.netology.nerecipe.util.SingleLiveEvent
 
 class EditRecipeViewModel(
     application: Application
-) : AndroidViewModel(application), EditStepInteractionListener {
+) : AndroidViewModel(application) {
 
     private val repository = SharedPrefsRecipeRepository(application)
 
@@ -32,7 +32,7 @@ class EditRecipeViewModel(
         description = "",
         category = "",
         steps = listOf(
-            CookingStep(stepDescription = "", stepNumber = 1, stepTime = 0)
+            CookingStep(stepDescription = "",  stepTime = 0)
         )
     )
 
@@ -56,9 +56,9 @@ class EditRecipeViewModel(
         currentStepNumber.value = stepNumber
     }
 
-    override fun onStepClicked(cookingStep: CookingStep) {
-        currentStep.value = cookingStep
-    }
+//    override fun onStepClicked(cookingStep: CookingStep) {
+//        currentStep.value = cookingStep
+//    }
 
     fun onSaveButtonClicked(recipe: Recipe) {
         if (

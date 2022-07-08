@@ -48,7 +48,7 @@ class FeedFragment : Fragment() {
         }
 
         viewModel.navigateToRecipeScreen.observe(this) { initialRecipeId ->
-            val direction = FeedFragmentDirections.toPostFragment(initialRecipeId)
+            val direction = FeedFragmentDirections.toRecipeFragment(initialRecipeId)
             findNavController().navigate(direction)
         }
 
@@ -161,7 +161,7 @@ class FeedFragment : Fragment() {
                     with(viewModel) {
                         navigateToFeedFragment.call()
                         onSaveQuery("")
-                        onSaveCategories(FilterState())
+                        //onSaveCategories(FilterState())
                     }
                     true
                 }

@@ -4,11 +4,13 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import ru.netology.nerecipe.adapter.EditStepInteractionListener
 import ru.netology.nerecipe.adapter.RecipeInteractionListener
 import ru.netology.nerecipe.data.FilterRepository
 import ru.netology.nerecipe.data.RecipeRepository
 import ru.netology.nerecipe.data.impl.FileRecipeRepository
 import ru.netology.nerecipe.data.impl.SharedPrefsRecipeRepository
+import ru.netology.nerecipe.dto.CookingStep
 import ru.netology.nerecipe.dto.FilterState
 import ru.netology.nerecipe.dto.Recipe
 import ru.netology.nerecipe.util.SingleLiveEvent
@@ -16,7 +18,7 @@ import java.util.*
 
 class RecipeViewModel(
     application: Application
-) : AndroidViewModel(application), RecipeInteractionListener {
+) : AndroidViewModel(application), RecipeInteractionListener, EditStepInteractionListener {
 
     private val repository: RecipeRepository = FileRecipeRepository(application)
     val data by repository::data
@@ -29,13 +31,14 @@ class RecipeViewModel(
     val navigateToFilterFragment = SingleLiveEvent<Unit>()
     val navigateToRecipeScreen = SingleLiveEvent<Long>()
     val navigateToFeedFragment = SingleLiveEvent<Unit>()
-    val navigateToRecipeSteps = SingleLiveEvent<Long>()
+    val navigateToStepEdit = SingleLiveEvent<List<Long>>()
 
     val filtratedDataLD: MediatorLiveData<List<Recipe>> = MediatorLiveData<List<Recipe>>()
     val searchQueryLD: MutableLiveData<String> = MutableLiveData()
     val filterByCategoryLD = MutableLiveData<List<String>>()
 
-
+    val currentSteps = MutableLiveData<List<CookingStep>>(null)
+    val currentPosition = MutableLiveData<Int>(null)
 
     val shareRecipeContent = SingleLiveEvent<String>()
 
@@ -70,9 +73,6 @@ class RecipeViewModel(
             toFilterStates(filterRepository.categoryData.value ?: FilterState())
     }
 
-    fun onStepsButtonClicked(recipeId: Long) {
-        navigateToRecipeSteps.value = recipeId
-    }
 
     // region  RecipeInteractionListener
 
@@ -90,8 +90,22 @@ class RecipeViewModel(
         navigateToEditRecipeFragment.value = recipe.id
     }
 
+    fun onAddStepClicked(recipeId: Long, position: Int) {
+        navigateToStepEdit.value = listOf(recipeId, position.toLong())
+    }
+
     override fun onPostClicked(recipe: Recipe) {
         navigateToRecipeScreen.value = recipe.id
+        currentSteps.value =
+            filtratedDataLD.value?.first { r -> r.id == recipe.id }?.steps ?: emptyList()
+    }
+
+    override fun onStepRemoveClicked(cookingStep: CookingStep) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onStepEditClicked(cookingStep: CookingStep) {
+        TODO("Not yet implemented")
     }
 
     override fun onFilterClicked() {
@@ -108,6 +122,12 @@ class RecipeViewModel(
     override fun removeRecipeById(recipeID: Long) {
         repository.delete(recipeID)
         navigateToFeedFragment.call()
+    }
+
+    fun findRecipeById(recipeId: Long): Recipe {
+
+        return repository.data.value?.first { recipe -> recipe.id == recipeId }
+            ?: throw RuntimeException("Recipe Id not found")
     }
 
     override fun recipeUp(position: Int) {
@@ -145,6 +165,14 @@ class RecipeViewModel(
         }
     }
 
+    fun saveStep(recipeId: Long, step: CookingStep) {
+        val recipe = findRecipeById(recipeId)
+        val steps = recipe.steps
+        val newSteps = steps + step
+        repository.save(recipe.copy(steps = newSteps))
+        currentSteps.value = newSteps
+    }
+
     companion object {
 
         fun toFilterStates(filterState: FilterState): List<String> {
@@ -161,5 +189,9 @@ class RecipeViewModel(
         }
 
     }
+
+//    override fun onStepClicked(cookingStep: CookingStep) {
+//
+//    }
 
 }

@@ -1,139 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:scrollbars="horizontal">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/stepPic"
-            android:layout_width="@dimen/pic_dimens"
-            android:layout_height="@dimen/pic_dimens"
-            android:layout_marginStart="@dimen/min_spacing"
-            android:layout_marginTop="@dimen/min_spacing"
-            android:contentDescription="@string/post_avatar"
-            android:src="@drawable/ic_outline_dining_24"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/stepNumber"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/common_spacing"
-            android:layout_marginEnd="@dimen/common_spacing"
-            app:layout_constraintStart_toEndOf="@+id/stepPic"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="spread"
-            tools:text="@string/step" />
+    <ImageView
+        android:id="@+id/stepPic"
+        android:layout_width="@dimen/pic_dimens"
+        android:layout_height="@dimen/pic_dimens"
+        android:layout_marginStart="@dimen/min_spacing"
+        android:layout_marginTop="@dimen/min_spacing"
+        android:contentDescription="@string/post_avatar"
+        android:src="@drawable/ic_outline_dining_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/stepTimePic"
-            style="@style/Widget.AppTheme.ShareAndViewsButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/min_spacing"
-            app:icon="@drawable/ic_baseline_access_time_24"
-            app:layout_constraintBottom_toTopOf="@id/barrierRecipeHeadContent"
-            app:layout_constraintEnd_toStartOf="@id/stepTime" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/stepTimePic"
+        style="@style/Widget.AppTheme.ShareAndViewsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/min_spacing"
+        app:icon="@drawable/ic_baseline_access_time_24"
+        app:layout_constraintBottom_toTopOf="@id/barrierRecipeHeadContent"
+        app:layout_constraintEnd_toStartOf="@id/stepTime" />
 
-        <EditText
-            android:id="@+id/stepTime"
-            style="@style/Widget.AppTheme.ShareAndViewsButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/min_spacing"
-            android:hint="@string/step_time"
-            android:inputType="number"
-            app:layout_constraintBottom_toTopOf="@id/barrierRecipeHeadContent"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:text="@string/step_time" />
+    <EditText
+        android:id="@+id/stepTime"
+        style="@style/Widget.AppTheme.ShareAndViewsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/min_spacing"
+        android:hint="@string/step_time"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@id/barrierRecipeHeadContent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="@string/step_time" />
 
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/barrierRecipeHeadContent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="bottom"
-            app:constraint_referenced_ids="stepPic" />
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrierRecipeHeadContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="stepPic" />
 
-        <EditText
-            android:id="@+id/stepDescription"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/common_spacing"
-            android:layout_marginTop="@dimen/min_spacing"
-            android:layout_marginEnd="@dimen/common_spacing"
-            android:layout_marginBottom="@dimen/common_spacing"
-            android:hint="@string/steps_description"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/barrierRecipeHeadContent"
-            app:layout_constraintVertical_chainStyle="spread"
-            tools:text="@string/recipe_step" />
+    <EditText
+        android:id="@+id/stepDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/common_spacing"
+        android:layout_marginTop="@dimen/min_spacing"
+        android:layout_marginEnd="@dimen/common_spacing"
+        android:layout_marginBottom="@dimen/common_spacing"
+        android:hint="@string/steps_description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/barrierRecipeHeadContent"
+        app:layout_constraintVertical_chainStyle="spread"
+        tools:text="@string/recipe_step" />
 
-        <TextView
-            android:id="@+id/current_step"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/big_spacing"
-            android:text="@string/current_step"
-            app:layout_constraintEnd_toStartOf="@id/current_step_value"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/stepDescription" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/saveStepButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        android:contentDescription="@string/save_step"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_ok_24dp" />
 
-        <TextView
-            android:id="@+id/current_step_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/current_step"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/current_step"
-            app:layout_constraintTop_toTopOf="@id/current_step" />
 
-        <Button
-            android:id="@+id/stepBeforeButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/common_spacing"
-            android:text="@string/stepBeforeDescription"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/current_step" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/editStepRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/stepBeforeButton"
-            tools:listitem="@layout/step_fragment" />
-
-        <Button
-            android:id="@+id/stepAfterButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/common_spacing"
-            android:text="@string/stepAfterDescription"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/editStepRecyclerView" />
-
-        <Button
-            android:id="@+id/saveRecipe"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/common_spacing"
-            android:text="@string/save_recipe"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/stepAfterButton" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

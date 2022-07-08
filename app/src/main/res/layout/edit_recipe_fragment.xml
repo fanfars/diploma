@@ -94,15 +94,53 @@
         app:barrierDirection="bottom"
         app:constraint_referenced_ids="description" />
 
-    <Button
-        android:id="@+id/edit_steps"
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/stepTimePic"
+        style="@style/Widget.AppTheme.ShareAndViewsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/min_spacing"
+        app:icon="@drawable/ic_baseline_access_time_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/stepDescription" />
+
+    <EditText
+        android:id="@+id/stepTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/min_spacing"
+        android:hint="@string/step_time"
+        android:inputType="number"
+        app:layout_constraintStart_toEndOf="@id/stepTimePic"
+        app:layout_constraintTop_toBottomOf="@id/stepDescription"
+        app:layout_constraintVertical_chainStyle="spread" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/stepsDescriptionText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/big_spacing"
-        android:text="@string/stepEdit"
+        android:gravity="center"
+        android:text="@string/firsStepsDescriptionText"
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/barrierStepHeadContent" />
+
+
+    <EditText
+        android:id="@+id/stepDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/common_spacing"
+        android:layout_marginEnd="@dimen/common_spacing"
+        android:gravity="center"
+        android:hint="@string/recipe_step"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/stepsDescriptionText"
+        app:layout_constraintVertical_chainStyle="spread" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/saveRecipeButton"

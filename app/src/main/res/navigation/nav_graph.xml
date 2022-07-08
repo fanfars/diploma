@@ -10,7 +10,7 @@
         android:name="ru.netology.nerecipe.ui.FeedFragment"
         tools:layout="@layout/feed_fragment">
         <action
-            android:id="@+id/toPostFragment"
+            android:id="@+id/toRecipeFragment"
             app:destination="@id/recipeFragment" />
         <action
             android:id="@+id/toFeedFragment"
@@ -34,23 +34,13 @@
             android:id="@+id/fromRecipeToFeedFragment"
             app:destination="@id/feedFragment" />
         <action
-            android:id="@+id/fromRecipeToStepsFragment"
-            app:destination="@id/stepsFragment" />
+            android:id="@+id/toEditStepFragment"
+            app:destination="@id/editStepsFragment" />
         <argument
             android:name="recipeId"
             app:argType="long" />
     </fragment>
-    <fragment
-        android:id="@+id/stepsFragment"
-        android:name="ru.netology.nerecipe.ui.StepsFragment"
-        tools:layout="@layout/steps_recycler_view_fragment">
-        <action
-            android:id="@+id/fromStepsToRecipeFragment"
-            app:destination="@id/recipeFragment" />
-        <argument
-            android:name="stepsRecipeId"
-            app:argType="long" />
-    </fragment>
+
     <fragment
         android:id="@+id/editRecipeFragment"
         android:name="ru.netology.nerecipe.ui.EditRecipeFragment"
@@ -58,9 +48,6 @@
         <action
             android:id="@+id/fromNewToFeedFragment"
             app:destination="@id/feedFragment" />
-        <action
-            android:id="@+id/toEditStepsFragment"
-            app:destination="@id/editStepsFragment" />
         <argument
             android:name="recipeId"
             app:argType="long" />
@@ -78,10 +65,14 @@
         android:name="ru.netology.nerecipe.ui.EditStepsFragment"
         tools:layout="@layout/edit_steps_fragment">
         <action
-            android:id="@+id/fromEditStepsToEditRecipeFragment"
-            app:destination="@id/editRecipeFragment" />
+            android:id="@+id/fromEditStepToRecipeFragment"
+            app:destination="@id/recipeFragment" />
         <argument
             android:name="recipeId"
             app:argType="long" />
+        <argument
+            android:name="position"
+            app:argType="integer" />
+
     </fragment>
 </navigation>

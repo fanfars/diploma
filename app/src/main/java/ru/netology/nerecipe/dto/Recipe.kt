@@ -23,6 +23,5 @@ data class CookingStep(
     val stepDescription: String,
     val stepTime: Int,
     val cover: String? = null,
-    var stepNumber: Int
 )
 

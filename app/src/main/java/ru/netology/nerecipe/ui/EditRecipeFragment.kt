@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.text.isDigitsOnly
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -33,7 +34,12 @@ class EditRecipeFragment : Fragment() {
         savedInstanceState: Bundle?
     ) = EditRecipeFragmentBinding.inflate(layoutInflater, container, false).also { binding ->
         recipe = if (editOrNew()) {
+            binding.stepDescription.visibility = View.GONE
+            binding.stepTime.visibility = View.GONE
+            binding.stepsDescriptionText.visibility = View.GONE
+
             viewModel.data.value!!.first { recipe -> recipe.id == args.recipeId }
+
         } else {
             editRecipeViewModel.data.value ?: throw RuntimeException("Empty editRecipeData")
         }
@@ -63,13 +69,6 @@ class EditRecipeFragment : Fragment() {
         }
         )
 
-        binding.editSteps.setOnClickListener {
-            if (editOrNew() && emptyFieldWarning(recipe)) {
-                viewModel.saveRecipeWithSteps(recipe)
-            } else editRecipeViewModel.saveRecipeWithSteps(recipe)
-            val direction = EditRecipeFragmentDirections.toEditStepsFragment(recipeId = recipe.id)
-            findNavController().navigate(direction)
-        }
 
         binding.saveRecipeButton.setOnClickListener {
             onOkButtonClicked(binding)
@@ -77,14 +76,33 @@ class EditRecipeFragment : Fragment() {
     }.root
 
     private fun onOkButtonClicked(binding: EditRecipeFragmentBinding) {
-        val newRecipe = readRecipe(binding)
+        val stepTime = binding.stepTime.getText().toString()
+        val step = if (editOrNew()) {
+            recipe.steps[FIRST_STEP]
+        } else {
+            CookingStep(
+                stepDescription = binding.stepDescription.getText().toString(),
+                stepTime = if (stepTime.isNotBlank() && stepTime.isDigitsOnly() && stepTime.toInt() > 0) stepTime.toInt() else {
+                    Toast.makeText(activity, "Please, input step time", Toast.LENGTH_LONG).show()
+                    INCORRECT_STEP_TIME
+                }
+            )
+        }
+        val newRecipe = recipe.copy(
+            title = binding.title.getText().toString(),
+            author = binding.author.getText().toString(),
+            category = recipeCategory,
+            description = binding.description.getText().toString(),
+            steps = listOf(step)
+        )
+
         if (!emptyFieldWarning(newRecipe)) return
         newRecipe.cookingTime = newRecipe.steps.sumOf { cookingStep -> cookingStep.stepTime }
-        if (editOrNew()) {
-            viewModel.onSaveButtonClicked(newRecipe)
-        } else
-            editRecipeViewModel.onSaveButtonClicked(newRecipe)
-        editRecipeViewModel.data.value = null
+//        if (editOrNew()) {
+        viewModel.onSaveButtonClicked(newRecipe)
+//        } else
+//            editRecipeViewModel.onSaveButtonClicked(newRecipe)
+        //editRecipeViewModel.data.value = null
         val direction = EditRecipeFragmentDirections.fromNewToFeedFragment()
         findNavController().navigate(direction)
     }
@@ -104,8 +122,8 @@ class EditRecipeFragment : Fragment() {
                 Toast.makeText(activity, "Category must be filled", Toast.LENGTH_LONG).show()
                 false
             }
-            recipe.steps.isNullOrEmpty()  -> {
-                Toast.makeText(activity, "At least one step is needed", Toast.LENGTH_LONG).show()
+            recipe.steps[0].stepDescription.isNullOrBlank() || recipe.steps[0].stepTime <= 0 -> {
+                Toast.makeText(activity, "Check cooking step values", Toast.LENGTH_LONG).show()
                 false
             }
             else -> true
@@ -114,23 +132,6 @@ class EditRecipeFragment : Fragment() {
 
     private fun editOrNew(): Boolean {
         return args.recipeId != 0L
-    }
-
-    private fun readRecipe(binding: EditRecipeFragmentBinding): Recipe {
-
-//        val step = CookingStep(
-//            stepDescription = recipe.steps[0].stepDescription,
-//            stepTime = recipe.steps[0].stepTime,
-//            stepNumber = recipe.steps[0].stepNumber
-//        )
-        val newRecipe = recipe.copy(
-            title = binding.title.getText().toString(),
-            author = binding.author.getText().toString(),
-            category = recipeCategory,
-            description = binding.description.getText().toString(),
-            steps = emptyList()
-        )
-        return newRecipe
     }
 
     private fun EditRecipeFragmentBinding.render(recipe: Recipe) {
@@ -149,5 +150,10 @@ class EditRecipeFragment : Fragment() {
                 else -> 1
             }
         )
+    }
+
+    companion object {
+        const val INCORRECT_STEP_TIME = -1
+        const val FIRST_STEP = 0
     }
 }
