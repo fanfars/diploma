@@ -77,7 +77,6 @@ class FeedFragment : Fragment() {
             if (recipes.isEmpty()) binding.emptyPic.visibility = View.VISIBLE else
                 binding.emptyPic.visibility = View.GONE
             adapter.submitList(recipes)
-
         }
 
         binding.searchBar.visibility = View.GONE

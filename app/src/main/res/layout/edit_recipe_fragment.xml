@@ -7,7 +7,7 @@
     android:padding="2dp">
 
     <ImageView
-        android:id="@+id/avatar"
+        android:id="@+id/recipePic"
         android:layout_width="@dimen/pic_dimens"
         android:layout_height="@dimen/pic_dimens"
         android:layout_marginStart="@dimen/min_spacing"
@@ -16,6 +16,7 @@
         android:src="@drawable/ic_outline_dining_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <EditText
         android:id="@+id/author"
@@ -27,7 +28,7 @@
         android:hint="@string/author"
         app:layout_constraintBottom_toTopOf="@+id/categorySpinner"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/avatar"
+        app:layout_constraintStart_toEndOf="@id/recipePic"
         app:layout_constraintTop_toBottomOf="@id/title"
         app:layout_constraintVertical_chainStyle="spread" />
 
@@ -41,7 +42,7 @@
         android:spinnerMode="dropdown"
         app:layout_constraintBottom_toTopOf="@id/barrierRecipeHeadContent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/avatar"
+        app:layout_constraintStart_toEndOf="@id/recipePic"
         app:layout_constraintTop_toBottomOf="@id/author"
         app:layout_constraintVertical_chainStyle="spread"
         tools:text="@string/category" />
@@ -60,7 +61,7 @@
         android:singleLine="true"
         app:layout_constraintBottom_toTopOf="@id/author"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/avatar"
+        app:layout_constraintStart_toEndOf="@id/recipePic"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="spread" />
 
@@ -70,7 +71,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="avatar" />
+        app:constraint_referenced_ids="recipePic" />
 
     <EditText
         android:id="@+id/description"
@@ -103,7 +104,7 @@
         android:layout_marginEnd="@dimen/min_spacing"
         app:icon="@drawable/ic_baseline_access_time_24"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/stepDescription" />
+        app:layout_constraintTop_toBottomOf="@id/stepPic" />
 
     <EditText
         android:id="@+id/stepTime"
@@ -113,7 +114,7 @@
         android:hint="@string/step_time"
         android:inputType="number"
         app:layout_constraintStart_toEndOf="@id/stepTimePic"
-        app:layout_constraintTop_toBottomOf="@id/stepDescription"
+        app:layout_constraintTop_toTopOf="@id/stepTimePic"
         app:layout_constraintVertical_chainStyle="spread" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -138,9 +139,21 @@
         android:gravity="center"
         android:hint="@string/recipe_step"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/stepPic"
         app:layout_constraintTop_toBottomOf="@id/stepsDescriptionText"
         app:layout_constraintVertical_chainStyle="spread" />
+
+    <ImageView
+        android:id="@+id/stepPic"
+        android:layout_width="@dimen/pic_dimens"
+        android:layout_height="@dimen/pic_dimens"
+        android:layout_marginStart="@dimen/min_spacing"
+        android:layout_marginTop="@dimen/min_spacing"
+        android:layout_marginEnd="@dimen/min_spacing"
+        android:contentDescription="@string/post_avatar"
+        android:src="@drawable/ic_outline_dining_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/stepsDescriptionText" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/saveRecipeButton"
@@ -151,5 +164,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_ok_24dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

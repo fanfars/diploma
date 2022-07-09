@@ -11,7 +11,7 @@
         android:padding="2dp">
 
         <ImageView
-            android:id="@+id/avatar"
+            android:id="@+id/recipePic"
             android:layout_width="@dimen/pic_dimens"
             android:layout_height="@dimen/pic_dimens"
             android:layout_marginStart="@dimen/min_spacing"
@@ -31,7 +31,7 @@
             android:singleLine="true"
             app:layout_constraintBottom_toTopOf="@+id/category"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/avatar"
+            app:layout_constraintStart_toEndOf="@id/recipePic"
             app:layout_constraintTop_toBottomOf="@id/title"
             app:layout_constraintVertical_chainStyle="spread"
             tools:text="@string/author" />
@@ -46,7 +46,7 @@
             android:singleLine="true"
             app:layout_constraintBottom_toTopOf="@id/likesButton"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/avatar"
+            app:layout_constraintStart_toEndOf="@id/recipePic"
             app:layout_constraintTop_toBottomOf="@id/author"
             app:layout_constraintVertical_chainStyle="spread"
             tools:text="@string/category" />
@@ -64,7 +64,7 @@
             android:singleLine="true"
             app:layout_constraintBottom_toTopOf="@id/author"
             app:layout_constraintEnd_toStartOf="@id/menu"
-            app:layout_constraintStart_toEndOf="@id/avatar"
+            app:layout_constraintStart_toEndOf="@id/recipePic"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="spread"
             tools:text="@string/recipe_title"
@@ -90,7 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/common_spacing"
             android:checkable="true"
-            app:layout_constraintStart_toEndOf="@id/avatar"
+            app:layout_constraintStart_toEndOf="@id/recipePic"
             app:layout_constraintTop_toBottomOf="@id/category" />
 
         <com.google.android.material.button.MaterialButton
@@ -121,7 +121,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
-            app:constraint_referenced_ids="avatar,likesButton,shareButton,cookingTimeCount" />
+            app:constraint_referenced_ids="recipePic,likesButton,shareButton,cookingTimeCount" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/recipeDescription"
@@ -142,18 +142,18 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/common_spacing"
             android:layout_marginBottom="@dimen/min_spacing"
-            app:layout_constraintTop_toBottomOf="@id/recipeDescription"
             android:gravity="center"
             android:text="@string/cooking_step"
-            />
+            android:textSize="@dimen/text_size_big"
+            app:layout_constraintTop_toBottomOf="@id/recipeDescription" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/stepRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/cookingStepText"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/cookingStepText"
             tools:listitem="@layout/step_fragment" />
 
 

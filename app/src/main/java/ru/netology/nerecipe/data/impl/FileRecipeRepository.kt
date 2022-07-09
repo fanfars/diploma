@@ -56,17 +56,19 @@ class FileRecipeRepository(
     }
 
     override fun like(recipeId: Long) {
-        recipes = recipes.map {
+
+        data.value = recipes.map {
             if (it.id != recipeId) it else it.copy(
                 isFavorite = !it.isFavorite,
-                )
+            )
         }
-    }
 
+    }
 
 
     override fun delete(recipeId: Long) {
         recipes = recipes.filterNot { it.id == recipeId }
+        data.value = recipes
     }
 
     override fun save(recipe: Recipe) {
@@ -77,24 +79,29 @@ class FileRecipeRepository(
         recipes = recipes.map {
             if (it.id == recipe.id) recipe else it
         }
+        data.value = recipes
     }
 
     private fun insert(recipe: Recipe) {
         recipes = listOf(
             recipe.copy(id = ++nextId)
         ) + recipes
+        data.value = recipes
     }
 
     override fun moveRecipeToPosition(from: Int, to: Int) {
         val destinationRecipe = recipes[to]
         val movableRecipe = recipes[from]
+        var newRecipes: List<Recipe> = recipes
         Collections.swap(
-            recipes,
-            recipes.indexOf(destinationRecipe),
-            recipes.indexOf(movableRecipe)
+            newRecipes,
+            newRecipes.indexOf(destinationRecipe),
+            newRecipes.indexOf(movableRecipe)
         )
-        recipes = data.value ?: recipes
+        data.value = newRecipes
+        recipes = newRecipes
     }
+
 
     override fun countOfRecipes(): Int {
         return recipes.size

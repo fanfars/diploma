@@ -1,5 +1,6 @@
 package ru.netology.nerecipe.adapter
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -35,7 +36,7 @@ internal class RecipeAdapter(
             binding.shareButton.setOnClickListener { listener.onShareClicked(recipe) }
             binding.title.setOnClickListener { listener.onPostClicked(recipe) }
             binding.author.setOnClickListener { listener.onPostClicked(recipe) }
-            binding.avatar.setOnClickListener { listener.onPostClicked(recipe) }
+            binding.recipePic.setOnClickListener { listener.onPostClicked(recipe) }
         }
 
         fun bind(recipe: Recipe) {
@@ -46,6 +47,7 @@ internal class RecipeAdapter(
                 author.text = recipe.author
                 categorySpinner.text = recipe.category
                 likesButton.text = recipe.id.toString()
+                recipePic.setImageURI(Uri.parse(recipe.recipeCover))
                 cookingTimeCount.text = recipe.cookingTime.toString()
                 likesButton.isChecked = recipe.isFavorite
             }
@@ -59,6 +61,6 @@ internal class RecipeAdapter(
         override fun areContentsTheSame(oldItem: Recipe, newItem: Recipe): Boolean =
             oldItem == newItem
     }
-    
+
 }
 

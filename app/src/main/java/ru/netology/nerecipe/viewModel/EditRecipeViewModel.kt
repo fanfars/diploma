@@ -31,8 +31,8 @@ class EditRecipeViewModel(
         author = "",
         description = "",
         category = "",
-        steps = listOf(
-            CookingStep(stepDescription = "",  stepTime = 0)
+        steps = mutableListOf(
+            CookingStep(stepDescription = "", stepTime = 0)
         )
     )
 

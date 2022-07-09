@@ -1,10 +1,14 @@
 package ru.netology.nerecipe.ui
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -16,25 +20,23 @@ import ru.netology.nerecipe.viewModel.RecipeViewModel
 
 class EditStepsFragment : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-//        setFragmentResultListener(
-//            requestKey = RecipeFragment.REQUEST_KEY
-//        ) { requestKey, bundle ->
-//            if (requestKey != RecipeFragment.REQUEST_KEY) return@setFragmentResultListener
-//            val editPos = bundle.getString(RecipeFragment.RESULT_KEY)
-//                ?: return@setFragmentResultListener
-//            viewModel.currentPosition.value = editPos.toInt()
-//        }
-
-    }
-
     private val args by navArgs<EditStepsFragmentArgs>()
 
-    private val viewModel by viewModels<RecipeViewModel>()
+    private val viewModel by activityViewModels<RecipeViewModel>()
 
     private lateinit var step: CookingStep
+
+    private val pickStepImgActivityResultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val uri = result.data?.data!!
+                requireActivity().contentResolver.takePersistableUriPermission(
+                    uri,
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION
+                )
+                viewModel.newStepImg.value = uri.toString()
+            }
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,7 +54,7 @@ class EditStepsFragment : Fragment() {
                 step =
                     viewModel.data.value?.first { recipe -> recipe.id == recipeId }!!.steps[position]
                 binding.stepDescription.setText(step.stepDescription)
-                binding.stepTime.setText(step.stepTime)
+                binding.stepTime.setText(step.stepTime.toString())
             } else {
 //                step = CookingStep(
 //                    stepDescription = "",
@@ -60,6 +62,20 @@ class EditStepsFragment : Fragment() {
 //                )
                 binding.stepDescription.text.clear()
                 binding.stepTime.text.clear()
+            }
+
+            binding.stepPic.setOnClickListener {
+                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                    addCategory(Intent.CATEGORY_OPENABLE)
+                    type = "image/*"
+                }
+                val imgPickIntent = Intent.createChooser(intent, "Select Image from...")
+                pickStepImgActivityResultLauncher.launch(imgPickIntent)
+            }
+            var stepImgPath = ""
+
+            viewModel.newStepImg.observe(viewLifecycleOwner) { path ->
+                stepImgPath = path ?: EditRecipeFragment.DEFAULT_IMAGE_PATH
             }
 
             binding.saveStepButton.setOnClickListener {
@@ -77,8 +93,12 @@ class EditStepsFragment : Fragment() {
                         .show()
                     return@setOnClickListener
                 }
-                step = CookingStep(stepDescription = stepDescription, stepTime = stepTime)
-                viewModel.saveStep(recipeId, step)
+                step = CookingStep(
+                    stepDescription = stepDescription,
+                    stepTime = stepTime,
+                    stepCover = stepImgPath
+                )
+                viewModel.saveStep(recipeId, step, position)
                 val direction = EditStepsFragmentDirections.fromEditStepToRecipeFragment(recipeId)
                 findNavController().navigate(direction)
             }

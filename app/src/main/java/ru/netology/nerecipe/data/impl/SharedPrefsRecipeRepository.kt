@@ -70,7 +70,7 @@ class SharedPrefsRecipeRepository(
             category = "",
             cookingTime = 0,
             isFavorite = false,
-            steps = emptyList()
+            steps = mutableListOf()
         )
         recipesData = MutableLiveData(recipes)
 
@@ -104,15 +104,15 @@ class SharedPrefsRecipeRepository(
     }
 
     override fun saveStepAfter(step: CookingStep, position: Int) {
-        var steps: List<CookingStep> = recipes.steps
-        steps = listOf(step.copy()) + steps
+        var steps: MutableList<CookingStep> = recipes.steps
+        steps.add(step)
         recipes = recipes.copy(steps = steps)
         recipesData.value = recipes
     }
 
     override fun saveStepBefore(step: CookingStep, position: Int) {
-        var steps: List<CookingStep> = recipes.steps
-        steps = steps + listOf(step.copy())
+        var steps: MutableList<CookingStep> = recipes.steps
+        steps.add(position, step)
         recipes = recipes.copy(steps = steps)
         recipesData.value = recipes
     }

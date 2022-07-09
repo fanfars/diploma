@@ -7,7 +7,7 @@
     android:padding="2dp">
 
     <ImageView
-        android:id="@+id/avatar"
+        android:id="@+id/recipePic"
         android:layout_width="@dimen/pic_dimens"
         android:layout_height="@dimen/pic_dimens"
         android:layout_marginStart="@dimen/min_spacing"
@@ -27,7 +27,7 @@
         android:singleLine="true"
         app:layout_constraintBottom_toTopOf="@+id/categorySpinner"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/avatar"
+        app:layout_constraintStart_toEndOf="@id/recipePic"
         app:layout_constraintTop_toBottomOf="@id/title"
         app:layout_constraintVertical_chainStyle="spread"
         tools:text="@string/author" />
@@ -42,7 +42,7 @@
         android:singleLine="true"
         app:layout_constraintBottom_toTopOf="@id/likesButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/avatar"
+        app:layout_constraintStart_toEndOf="@id/recipePic"
         app:layout_constraintTop_toBottomOf="@id/author"
         app:layout_constraintVertical_chainStyle="spread"
         tools:text="@string/category" />
@@ -61,7 +61,7 @@
         android:textSize="24dp"
         app:layout_constraintBottom_toTopOf="@id/author"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/avatar"
+        app:layout_constraintStart_toEndOf="@id/recipePic"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="spread"
         tools:text="@string/recipe_title" />
@@ -74,7 +74,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/common_spacing"
         android:checkable="true"
-        app:layout_constraintStart_toEndOf="@id/avatar"
+        app:layout_constraintStart_toEndOf="@id/recipePic"
         app:layout_constraintTop_toBottomOf="@id/categorySpinner" />
 
     <com.google.android.material.button.MaterialButton
@@ -105,7 +105,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="avatar,likesButton,shareButton,cookingTimeCount" />
+        app:constraint_referenced_ids="recipePic,likesButton,shareButton,cookingTimeCount" />
 
 
 

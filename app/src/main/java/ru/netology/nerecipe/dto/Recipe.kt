@@ -9,7 +9,8 @@ data class Recipe(
     val title: String,
     val description: String,
     val category: String,
-    val steps: List<CookingStep>,
+    val recipeCover: String? = null,
+    val steps: MutableList<CookingStep>,
     var cookingTime: Int = 0,
     var isFavorite: Boolean = false
 ) {
@@ -22,6 +23,6 @@ data class Recipe(
 data class CookingStep(
     val stepDescription: String,
     val stepTime: Int,
-    val cover: String? = null,
+    val stepCover: String? = null
 )
 

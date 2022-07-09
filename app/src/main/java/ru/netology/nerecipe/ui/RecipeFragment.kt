@@ -1,10 +1,13 @@
 package ru.netology.nerecipe.ui
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -24,7 +27,6 @@ class RecipeFragment : Fragment() {
     private val args by navArgs<RecipeFragmentArgs>()
 
     private val viewModel by activityViewModels<RecipeViewModel>()
-    private lateinit var singleRecipe: Recipe
 
 
     override fun onCreateView(
@@ -34,9 +36,18 @@ class RecipeFragment : Fragment() {
     ) = FullRecipeFragmentBinding.inflate(layoutInflater, container, false)
         .also { binding ->
 
-            requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            requireActivity().onBackPressedDispatcher?.addCallback(viewLifecycleOwner) {
                 val direction = RecipeFragmentDirections.fromRecipeToFeedFragment()
                 findNavController().navigate(direction)
+            }
+
+            viewModel.getSteps(args.recipeId)
+            viewModel.currentRecipe.value = viewModel.data.value?.first { it.id == args.recipeId }
+
+            val adapter = EditStepAdapter(viewModel)
+            binding.stepRecyclerView.adapter = adapter
+            viewModel.currentSteps.observe(viewLifecycleOwner) {
+                adapter.submitList(it)
             }
 
             val singleRecipe = viewModel.data.value?.first { recipe ->
@@ -80,9 +91,9 @@ class RecipeFragment : Fragment() {
                         when (option.itemId) {
                             R.id.remove -> {
                                 viewModel.onRemoveClicked(singleRecipe)
-                                val direction = RecipeFragmentDirections.fromRecipeToFeedFragment()
+                                val direction =
+                                    RecipeFragmentDirections.fromRecipeToFeedFragment()
                                 findNavController().navigate(direction)
-
                                 true
                             }
                             R.id.edit -> {
@@ -90,11 +101,7 @@ class RecipeFragment : Fragment() {
                                 true
                             }
                             R.id.add_step -> {
-                                //val list = listOf(singleRecipe.id, NEW_STEP_ID.toLong())
                                 viewModel.onAddStepClicked(singleRecipe.id, NEW_STEP_ID)
-//                                val resultBundle = Bundle(1)
-//                                resultBundle.putString(RESULT_KEY, NEW_STEP_ID.toString())
-//                                setFragmentResult(REQUEST_KEY, resultBundle)
                                 true
                             }
                             else -> {
@@ -107,14 +114,6 @@ class RecipeFragment : Fragment() {
             binding.menu.setOnClickListener {
                 popupMenu.show()
             }
-
-
-            val adapter = EditStepAdapter(viewModel)
-            binding.stepRecyclerView.adapter = adapter
-            viewModel.data.observe(viewLifecycleOwner) { recipes ->
-                var steps = recipes.first { it.id==args.recipeId }.steps
-                adapter.submitList(steps)}
-
 
 
             val simpleCallback = object :
@@ -146,11 +145,11 @@ class RecipeFragment : Fragment() {
                         val toPosition = target.adapterPosition
                         if (fromPosition < toPosition) {
                             for (i in fromPosition until toPosition) {
-                                //viewModel.recipeUp(fromPosition)
+                                viewModel.stepUp(fromPosition)
                             }
                         } else {
                             for (i in fromPosition downTo toPosition + 1) {
-                                //viewModel.recipeDown(fromPosition)
+                                viewModel.stepDown(fromPosition)
                             }
                         }
                         adapter.notifyItemMoved(fromPosition, toPosition)
@@ -160,9 +159,9 @@ class RecipeFragment : Fragment() {
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     if (direction == ItemTouchHelper.END || direction == ItemTouchHelper.START) {
-
-
                         adapter.notifyItemRemoved(viewHolder.adapterPosition)
+                        val step = adapter.currentList.get(viewHolder.layoutPosition)
+                        viewModel.onStepRemoveClicked(step)
                     }
                 }
             }
@@ -175,8 +174,6 @@ class RecipeFragment : Fragment() {
 
     companion object {
         const val NEW_STEP_ID = -1
-        const val RESULT_KEY = "result_key"
-        const val REQUEST_KEY = "request_key"
         const val RECIPE_ID = 0
         const val STEP_POSITION = 1
 
@@ -192,6 +189,7 @@ private fun FullRecipeFragmentBinding.render(recipe: Recipe) {
     likesButton.text = recipe.id.toString()
     cookingTimeCount.text = recipe.cookingTime.toString()
     likesButton.isChecked = recipe.isFavorite
+    recipePic.setImageURI(Uri.parse(recipe.recipeCover))
 
 }
 

@@ -1,5 +1,6 @@
 package ru.netology.nerecipe.adapter
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.PopupMenu
@@ -11,7 +12,7 @@ import ru.netology.nerecipe.databinding.StepFragmentBinding
 import ru.netology.nerecipe.dto.CookingStep
 
 
-internal class EditStepAdapter(
+class EditStepAdapter(
     private val interactionListener: EditStepInteractionListener
 ) : ListAdapter<CookingStep, EditStepAdapter.ViewHolder>(DiffCallback) {
 
@@ -55,11 +56,8 @@ internal class EditStepAdapter(
 
 
         init {
-//            binding.stepDescription.setOnClickListener { listener.onStepClicked(step) }
-//            binding.stepPic.setOnClickListener { listener.onStepClicked(step) }
-//            binding.stepTime.setOnClickListener { listener.onStepClicked(step) }
-            binding.stepMenu.setOnClickListener { popupMenu.show()}
-            }
+            binding.stepMenu.setOnClickListener { popupMenu.show() }
+        }
 
         fun bind(step: CookingStep) {
             this.step = step
@@ -67,6 +65,7 @@ internal class EditStepAdapter(
             with(binding) {
                 stepDescription.text = step.stepDescription
                 stepTime.text = step.stepTime.toString()
+                stepPic.setImageURI(Uri.parse(step.stepCover))
             }
         }
     }

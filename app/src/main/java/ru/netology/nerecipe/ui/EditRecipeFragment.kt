@@ -1,5 +1,8 @@
 package ru.netology.nerecipe.ui
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,8 +10,10 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.text.isDigitsOnly
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -23,10 +28,36 @@ import ru.netology.nerecipe.viewModel.RecipeViewModel
 class EditRecipeFragment : Fragment() {
 
     private val args by navArgs<EditRecipeFragmentArgs>()
-    private val viewModel by viewModels<RecipeViewModel>()
+    private val viewModel by activityViewModels<RecipeViewModel>()
     private val editRecipeViewModel by viewModels<EditRecipeViewModel>()
     private lateinit var recipe: Recipe
     private var recipeCategory = ""
+
+
+    private val pickStepImgActivityResultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val uri = result.data?.data!!
+                requireActivity().contentResolver.takePersistableUriPermission(
+                    uri,
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION
+                )
+                viewModel.newStepImg.value = uri.toString()
+            }
+        }
+
+    private val pickRecipeImgActivityResultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val uri = result.data?.data!!
+                requireActivity().contentResolver.takePersistableUriPermission(
+                    uri,
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION
+                )
+                viewModel.newRecipeImg.value = uri.toString()
+            }
+        }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,12 +68,17 @@ class EditRecipeFragment : Fragment() {
             binding.stepDescription.visibility = View.GONE
             binding.stepTime.visibility = View.GONE
             binding.stepsDescriptionText.visibility = View.GONE
+            binding.stepPic.visibility = View.GONE
+            binding.stepTimePic.visibility = View.GONE
 
             viewModel.data.value!!.first { recipe -> recipe.id == args.recipeId }
 
         } else {
             editRecipeViewModel.data.value ?: throw RuntimeException("Empty editRecipeData")
         }
+
+        viewModel.currentRecipe.value = recipe
+
         binding.render(recipe)
 
         val spinner = binding.categorySpinner
@@ -70,6 +106,51 @@ class EditRecipeFragment : Fragment() {
         )
 
 
+        var recipeImgPath = ""
+
+        viewModel.newRecipeImg.observe(viewLifecycleOwner) { path ->
+            recipeImgPath = path ?: DEFAULT_IMAGE_PATH
+            viewModel.currentRecipe.value =
+                viewModel.currentRecipe.value?.copy(recipeCover = path)
+        }
+
+        binding.recipePic.setOnClickListener {
+            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                addCategory(Intent.CATEGORY_OPENABLE)
+                type = "image/*"
+            }
+            val imgPickIntent = Intent.createChooser(intent, "Select Image from...")
+            pickRecipeImgActivityResultLauncher.launch(imgPickIntent)
+        }
+
+
+        var stepImgPath = ""
+
+        binding.stepPic.setOnClickListener {
+            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                addCategory(Intent.CATEGORY_OPENABLE)
+                type = "image/*"
+            }
+            val imgPickIntent = Intent.createChooser(intent, "Select Image from...")
+            pickStepImgActivityResultLauncher.launch(imgPickIntent)
+        }
+
+        viewModel.newStepImg.observe(viewLifecycleOwner) { path ->
+            stepImgPath = path ?: DEFAULT_IMAGE_PATH
+        }
+
+//        newRecipeAddStepImageButton.setOnClickListener {
+//            if (!newRecipeStepsEditText.text.isNullOrEmpty()) {
+//                steps[newRecipeStepsEditText.text.toString()] = stepImgPath.ifEmpty { "" }
+//                currentNewRecipe.value =
+//                    currentNewRecipe.value?.copy(steps = steps)
+//                stepImgPath = ""
+//                newRecipeStepsEditText.hideKeyboard()
+//                newRecipeStepsEditText.text.clear()
+//            }
+//        }
+
+
         binding.saveRecipeButton.setOnClickListener {
             onOkButtonClicked(binding)
         }
@@ -82,10 +163,12 @@ class EditRecipeFragment : Fragment() {
         } else {
             CookingStep(
                 stepDescription = binding.stepDescription.getText().toString(),
-                stepTime = if (stepTime.isNotBlank() && stepTime.isDigitsOnly() && stepTime.toInt() > 0) stepTime.toInt() else {
+                stepTime = if (stepTime.isNotBlank() && stepTime.isDigitsOnly() && stepTime.toInt() > 0)
+                    stepTime.toInt() else {
                     Toast.makeText(activity, "Please, input step time", Toast.LENGTH_LONG).show()
                     INCORRECT_STEP_TIME
-                }
+                },
+                stepCover = viewModel.newStepImg.value ?: DEFAULT_IMAGE_PATH
             )
         }
         val newRecipe = recipe.copy(
@@ -93,16 +176,13 @@ class EditRecipeFragment : Fragment() {
             author = binding.author.getText().toString(),
             category = recipeCategory,
             description = binding.description.getText().toString(),
-            steps = listOf(step)
+            steps = mutableListOf(step),
+            recipeCover = viewModel.newRecipeImg.value ?: DEFAULT_IMAGE_PATH
         )
 
         if (!emptyFieldWarning(newRecipe)) return
         newRecipe.cookingTime = newRecipe.steps.sumOf { cookingStep -> cookingStep.stepTime }
-//        if (editOrNew()) {
         viewModel.onSaveButtonClicked(newRecipe)
-//        } else
-//            editRecipeViewModel.onSaveButtonClicked(newRecipe)
-        //editRecipeViewModel.data.value = null
         val direction = EditRecipeFragmentDirections.fromNewToFeedFragment()
         findNavController().navigate(direction)
     }
@@ -150,10 +230,13 @@ class EditRecipeFragment : Fragment() {
                 else -> 1
             }
         )
+        recipePic.setImageURI(Uri.parse(recipe.recipeCover ?: DEFAULT_IMAGE_PATH))
     }
 
     companion object {
         const val INCORRECT_STEP_TIME = -1
         const val FIRST_STEP = 0
+        const val DEFAULT_IMAGE_PATH =
+            "android.resource://ru.netology.nerecipe/drawable/ic_outline_dining_24"
     }
 }
