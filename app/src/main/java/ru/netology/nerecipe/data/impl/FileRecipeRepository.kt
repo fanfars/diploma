@@ -3,14 +3,10 @@ package ru.netology.nerecipe.data.impl
 import android.app.Application
 import android.content.Context
 import androidx.core.content.edit
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.map
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import ru.netology.nerecipe.data.RecipeRepository
-import ru.netology.nerecipe.dto.FilterState
 import ru.netology.nerecipe.dto.Recipe
 import java.util.*
 import kotlin.properties.Delegates
@@ -57,14 +53,13 @@ class FileRecipeRepository(
 
     override fun like(recipeId: Long) {
 
-        data.value = recipes.map {
+        recipes = recipes.map {
             if (it.id != recipeId) it else it.copy(
                 isFavorite = !it.isFavorite,
             )
         }
 
     }
-
 
     override fun delete(recipeId: Long) {
         recipes = recipes.filterNot { it.id == recipeId }
@@ -92,7 +87,7 @@ class FileRecipeRepository(
     override fun moveRecipeToPosition(from: Int, to: Int) {
         val destinationRecipe = recipes[to]
         val movableRecipe = recipes[from]
-        var newRecipes: List<Recipe> = recipes
+        val newRecipes: List<Recipe> = recipes
         Collections.swap(
             newRecipes,
             newRecipes.indexOf(destinationRecipe),
@@ -109,10 +104,6 @@ class FileRecipeRepository(
 
     override fun getLastId(): Long {
         return nextId
-    }
-
-    override fun filterByFavorite() {
-        data.value = recipes.filter { it.isFavorite }
     }
 
     override fun clearFilter() {

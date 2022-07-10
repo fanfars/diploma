@@ -46,4 +46,10 @@
     <string name="search">Поиск</string>
     <string name="step_time">Время шага</string>
     <string name="stepEdit">Редактирование шага</string>
+    <string name="save_recipe">Сохранить рецепт</string>
+    <string name="current_step">Текущий шаг</string>
+    <string name="add_step">Добавить шаг</string>
+    <string name="save_step">Сохранить шаг</string>
+    <string name="cooking_step">Последовательность приготовления</string>
+    <string name="firsStepsDescriptionText">Описание первого шага</string>
 </resources>

@@ -2,8 +2,6 @@ package ru.netology.nerecipe.viewModel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
-import ru.netology.nerecipe.adapter.EditStepInteractionListener
 import ru.netology.nerecipe.data.RecipeRepository
 import ru.netology.nerecipe.data.impl.SharedPrefsRecipeRepository
 import ru.netology.nerecipe.dto.CookingStep

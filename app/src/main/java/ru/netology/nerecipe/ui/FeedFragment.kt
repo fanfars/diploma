@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -23,7 +22,7 @@ import ru.netology.nerecipe.viewModel.RecipeViewModel
 
 class FeedFragment : Fragment() {
 
-    private val viewModel by viewModels<RecipeViewModel>()
+    private val viewModel by activityViewModels<RecipeViewModel>()
     private val editRecipeViewModel by activityViewModels<EditRecipeViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -159,6 +158,7 @@ class FeedFragment : Fragment() {
                     with(viewModel) {
                         navigateToFeedFragment.call()
                         onSaveQuery("")
+                        filterByFavLD.value = false
                     }
                     true
                 }

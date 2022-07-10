@@ -37,6 +37,7 @@ class RecipeViewModel(
     val filtratedDataLD: MediatorLiveData<List<Recipe>> = MediatorLiveData<List<Recipe>>()
     val searchQueryLD: MutableLiveData<String> = MutableLiveData()
     val filterByCategoryLD = MutableLiveData<List<String>>()
+    val filterByFavLD = MutableLiveData(false)
 
 
     val currentSteps = MutableLiveData<MutableList<CookingStep>>()
@@ -49,10 +50,12 @@ class RecipeViewModel(
     init {
         filterByCategoryLD.value =
             toFilterStates(filterRepository.categoryData.value ?: FilterState())
+
         searchQueryLD.value = queryData.value
         filtratedDataLD.addSource(data) { filtratedDataLD.value = data.value }
         filtratedDataLD.addSource(searchQueryLD) { filterForData() }
         filtratedDataLD.addSource(filterByCategoryLD) { filterForData() }
+        filtratedDataLD.addSource(filterByFavLD) { filterForData() }
     }
 
     fun onSaveButtonClicked(recipe: Recipe) {
@@ -139,7 +142,11 @@ class RecipeViewModel(
     }
 
     override fun onFavoriteClicked() {
-        repository.filterByFavorite()
+//        filterByFavLD.value = true
+//        repository.filterByFavorite()
+        if (filterByFavLD.value == null) {
+            filterByFavLD.value = false
+        } else filterByFavLD.value = !filterByFavLD.value!!
     }
 
     override fun onUndoClicked() {
@@ -187,6 +194,12 @@ class RecipeViewModel(
             filtratedDataLD.value = filtratedDataLD.value?.filter { recipe ->
                 filterByCategoryLD.value?.contains(recipe.category)
                     ?: throw RuntimeException("Empty filtrated data value")
+            }
+        }
+
+        if (filterByFavLD.value == true) {
+            filtratedDataLD.value = filtratedDataLD.value?.filter { recipe ->
+                recipe.isFavorite
             }
         }
     }

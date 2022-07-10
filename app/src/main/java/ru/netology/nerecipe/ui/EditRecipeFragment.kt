@@ -76,7 +76,7 @@ class EditRecipeFragment : Fragment() {
         } else {
             editRecipeViewModel.data.value ?: throw RuntimeException("Empty editRecipeData")
         }
-
+        viewModel.newRecipeImg.value = recipe.recipeCover ?: DEFAULT_IMAGE_PATH
         viewModel.currentRecipe.value = recipe
 
         binding.render(recipe)

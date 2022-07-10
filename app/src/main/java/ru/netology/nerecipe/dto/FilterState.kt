@@ -11,5 +11,4 @@ data class FilterState(
     var americanIsActive: Boolean = true,
     var russianIsActive: Boolean = true,
     var mediterraneanIsActive: Boolean = true
-) {
-}
+)

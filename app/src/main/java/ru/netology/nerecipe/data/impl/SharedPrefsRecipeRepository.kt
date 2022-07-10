@@ -12,7 +12,6 @@ import ru.netology.nerecipe.data.RecipeRepository
 import ru.netology.nerecipe.dto.CookingStep
 import ru.netology.nerecipe.dto.FilterState
 import ru.netology.nerecipe.dto.Recipe
-import java.util.*
 
 class SharedPrefsRecipeRepository(
     application: Application
@@ -104,14 +103,14 @@ class SharedPrefsRecipeRepository(
     }
 
     override fun saveStepAfter(step: CookingStep, position: Int) {
-        var steps: MutableList<CookingStep> = recipes.steps
+        val steps: MutableList<CookingStep> = recipes.steps
         steps.add(step)
         recipes = recipes.copy(steps = steps)
         recipesData.value = recipes
     }
 
     override fun saveStepBefore(step: CookingStep, position: Int) {
-        var steps: MutableList<CookingStep> = recipes.steps
+        val steps: MutableList<CookingStep> = recipes.steps
         steps.add(position, step)
         recipes = recipes.copy(steps = steps)
         recipesData.value = recipes

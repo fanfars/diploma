@@ -58,6 +58,6 @@
     <string name="current_step">Current step</string>
     <string name="add_step">Add step</string>
     <string name="save_step">Save step</string>
-    <string name="cooking_step">Cookin steps</string>
+    <string name="cooking_step">Cooking steps</string>
     <string name="firsStepsDescriptionText">First step description</string>
 </resources>
