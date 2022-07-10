@@ -2,7 +2,9 @@ package ru.netology.nerecipe.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -13,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.netology.nerecipe.R
 import ru.netology.nerecipe.adapter.RecipeAdapter
 import ru.netology.nerecipe.databinding.FeedFragmentBinding
-import ru.netology.nerecipe.dto.FilterState
 import ru.netology.nerecipe.util.hideKeyboard
 import ru.netology.nerecipe.util.showKeyboard
 import ru.netology.nerecipe.viewModel.EditRecipeViewModel
@@ -25,10 +26,8 @@ class FeedFragment : Fragment() {
     private val viewModel by viewModels<RecipeViewModel>()
     private val editRecipeViewModel by activityViewModels<EditRecipeViewModel>()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
 
         viewModel.shareRecipeContent.observe(this) { postContent ->
             val intent = Intent().apply {
@@ -160,7 +159,6 @@ class FeedFragment : Fragment() {
                     with(viewModel) {
                         navigateToFeedFragment.call()
                         onSaveQuery("")
-                        //onSaveCategories(FilterState())
                     }
                     true
                 }

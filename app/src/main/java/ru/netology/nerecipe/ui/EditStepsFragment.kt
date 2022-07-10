@@ -45,21 +45,16 @@ class EditStepsFragment : Fragment() {
     ) = EditStepsFragmentBinding.inflate(layoutInflater, container, false)
         .also { binding ->
 
-
             val position = args.position
             val recipeId = args.recipeId
 
-            //viewModel.currentPosition.value ?: throw RuntimeException("Position not found")
             if (position != RecipeFragment.NEW_STEP_ID) {
                 step =
                     viewModel.data.value?.first { recipe -> recipe.id == recipeId }!!.steps[position]
                 binding.stepDescription.setText(step.stepDescription)
                 binding.stepTime.setText(step.stepTime.toString())
             } else {
-//                step = CookingStep(
-//                    stepDescription = "",
-//                    stepTime = -1,
-//                )
+
                 binding.stepDescription.text.clear()
                 binding.stepTime.text.clear()
             }

@@ -1,9 +1,7 @@
 package ru.netology.nerecipe.viewModel
 
 import android.app.Application
-import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import ru.netology.nerecipe.adapter.EditStepInteractionListener
@@ -195,13 +193,14 @@ class RecipeViewModel(
 
     fun saveStep(recipeId: Long, step: CookingStep, position: Int) {
         val recipe = findRecipeById(recipeId)
-        var steps = recipe.steps
+        val steps = recipe.steps
         if (position == RecipeFragment.NEW_STEP_ID) {
             steps.add(step)
 
         } else {
             steps[position] = step
         }
+        recipe.cookingTime = recipe.steps.sumOf { cookingStep -> cookingStep.stepTime }
         repository.save(recipe.copy(steps = steps))
         currentSteps.value = steps
         newStepImg.value = null
@@ -209,9 +208,9 @@ class RecipeViewModel(
 
 
     override fun stepUp(position: Int) {
-        var steps = currentSteps.value
+        val steps = currentSteps.value
         if (steps != null) {
-            if (position == steps?.size) return else
+            if (position == steps.size) return else
                 Collections.swap(
                     steps,
                     position + 1,
@@ -225,7 +224,7 @@ class RecipeViewModel(
     }
 
     override fun stepDown(position: Int) {
-        var steps = currentSteps.value
+        val steps = currentSteps.value
         if (steps != null) {
             if (position == 0) return else
                 Collections.swap(

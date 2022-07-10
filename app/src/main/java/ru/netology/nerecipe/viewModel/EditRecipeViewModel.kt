@@ -17,13 +17,7 @@ class EditRecipeViewModel(
     private val repository = SharedPrefsRecipeRepository(application)
 
     val data by repository::recipesData
-    val navigateToEditRecipeFragment = SingleLiveEvent<Long>()
     val navigateToNewRecipeFragment = SingleLiveEvent<Long>()
-
-    val currentRecipe = MutableLiveData<Recipe>(null)
-    val currentSteps = MutableLiveData<List<CookingStep>>(null)
-    val currentStep = MutableLiveData<CookingStep>(null)
-    val currentStepNumber = MutableLiveData<Int>(null)
 
     val emptyRecipe = Recipe(
         id = RecipeRepository.NEW_POST_ID,
@@ -40,35 +34,5 @@ class EditRecipeViewModel(
         val recipe = emptyRecipe
         repository.save(recipe)
         navigateToNewRecipeFragment.value = RecipeRepository.NEW_POST_ID
-    }
-
-    fun saveRecipeWithSteps(recipe: Recipe) = repository.save(recipe)
-
-    fun saveStepAfter(step: CookingStep) {
-        repository.saveStepAfter(step, currentStepNumber.value!!.toInt())
-    }
-
-    fun saveStepBefore(step: CookingStep) {
-        repository.saveStepBefore(step, currentStepNumber.value!!.toInt())
-    }
-
-    fun removeStepByNumber(stepNumber: Int) {
-        currentStepNumber.value = stepNumber
-    }
-
-//    override fun onStepClicked(cookingStep: CookingStep) {
-//        currentStep.value = cookingStep
-//    }
-
-    fun onSaveButtonClicked(recipe: Recipe) {
-        if (
-            recipe.title.isBlank() ||
-            recipe.author.isBlank() ||
-            recipe.category.isBlank()
-        ) navigateToEditRecipeFragment.value = recipe.id
-        else {
-            repository.save(recipe)
-
-        }
     }
 }

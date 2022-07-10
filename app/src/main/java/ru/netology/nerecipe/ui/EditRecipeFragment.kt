@@ -123,7 +123,6 @@ class EditRecipeFragment : Fragment() {
             pickRecipeImgActivityResultLauncher.launch(imgPickIntent)
         }
 
-
         var stepImgPath = ""
 
         binding.stepPic.setOnClickListener {
@@ -138,18 +137,6 @@ class EditRecipeFragment : Fragment() {
         viewModel.newStepImg.observe(viewLifecycleOwner) { path ->
             stepImgPath = path ?: DEFAULT_IMAGE_PATH
         }
-
-//        newRecipeAddStepImageButton.setOnClickListener {
-//            if (!newRecipeStepsEditText.text.isNullOrEmpty()) {
-//                steps[newRecipeStepsEditText.text.toString()] = stepImgPath.ifEmpty { "" }
-//                currentNewRecipe.value =
-//                    currentNewRecipe.value?.copy(steps = steps)
-//                stepImgPath = ""
-//                newRecipeStepsEditText.hideKeyboard()
-//                newRecipeStepsEditText.text.clear()
-//            }
-//        }
-
 
         binding.saveRecipeButton.setOnClickListener {
             onOkButtonClicked(binding)
