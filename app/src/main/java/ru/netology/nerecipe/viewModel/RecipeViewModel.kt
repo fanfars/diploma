@@ -78,16 +78,13 @@ class RecipeViewModel(
 
     fun onSaveQuery(query: String) {
         filterRepository.saveQuery(query)
+        searchQueryLD.value = query
     }
 
     fun onSaveCategories(filterState: FilterState) {
+        filterByCategoryLD.value = toFilterStates(filterState)
         filterRepository.saveCategories(filterState)
-        filterByCategoryLD.value =
-            toFilterStates(filterRepository.categoryData.value ?: FilterState())
     }
-
-
-    // region  RecipeInteractionListener
 
     override fun onLikeClicked(recipe: Recipe) = repository.like(recipe.id)
 
@@ -142,8 +139,7 @@ class RecipeViewModel(
     }
 
     override fun onFavoriteClicked() {
-//        filterByFavLD.value = true
-//        repository.filterByFavorite()
+
         if (filterByFavLD.value == null) {
             filterByFavLD.value = false
         } else filterByFavLD.value = !filterByFavLD.value!!
@@ -176,7 +172,7 @@ class RecipeViewModel(
         if (position == 1) return else
             repository.moveRecipeToPosition(position, position - 1)
     }
-    // endregion  RecipeInteractionListener
+
 
     private fun filterForData() {
         val searchText =

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.netology.nerecipe.R
 import ru.netology.nerecipe.adapter.RecipeAdapter
 import ru.netology.nerecipe.databinding.FeedFragmentBinding
+import ru.netology.nerecipe.dto.FilterState
 import ru.netology.nerecipe.util.hideKeyboard
 import ru.netology.nerecipe.util.showKeyboard
 import ru.netology.nerecipe.viewModel.EditRecipeViewModel
@@ -130,7 +131,7 @@ class FeedFragment : Fragment() {
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     binding.searchBar.hideKeyboard()
                     if (!query.isNullOrBlank()) viewModel.onSaveQuery(query) else return false
-                    viewModel.navigateToFeedFragment.call()
+                    //viewModel.navigateToFeedFragment.call()
                     return true
 
                 }
@@ -159,6 +160,7 @@ class FeedFragment : Fragment() {
                         navigateToFeedFragment.call()
                         onSaveQuery("")
                         filterByFavLD.value = false
+                        onSaveCategories(FilterState())
                     }
                     true
                 }

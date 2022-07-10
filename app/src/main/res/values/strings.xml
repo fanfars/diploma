@@ -4,7 +4,6 @@
     <string name="avatar_description">Author avatar</string>
     <string name="author">Author</string>
     <string name="category">Russian</string>
-    <string name="demo">Привет, это новая Нетология! Когда-то Нетология начиналась с интенсивов по онлайн-маркетингу.</string>
     <string name="recipe_step">Step description</string>
     <string name="likesCount">9999</string>
     <string name="sharesCount">999</string>

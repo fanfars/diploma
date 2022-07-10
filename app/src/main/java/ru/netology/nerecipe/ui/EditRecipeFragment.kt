@@ -161,7 +161,16 @@ class EditRecipeFragment : Fragment() {
         val newRecipe = recipe.copy(
             title = binding.title.getText().toString(),
             author = binding.author.getText().toString(),
-            category = recipeCategory,
+            category = when (binding.categorySpinner.getSelectedItemPosition()) {
+                0 -> Recipe.Companion.Categories.European.toString()
+                1 -> Recipe.Companion.Categories.Asian.toString()
+                2 -> Recipe.Companion.Categories.PanAsian.toString()
+                3 -> Recipe.Companion.Categories.Eastern.toString()
+                4 -> Recipe.Companion.Categories.American.toString()
+                5 -> Recipe.Companion.Categories.Russian.toString()
+                6 -> Recipe.Companion.Categories.Mediterranean.toString()
+                else -> Recipe.Companion.Categories.European.toString()
+            },
             description = binding.description.getText().toString(),
             steps = mutableListOf(step),
             recipeCover = viewModel.newRecipeImg.value ?: DEFAULT_IMAGE_PATH
